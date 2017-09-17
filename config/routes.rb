@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :cars
+
   resources :reservations
 
   get 'signup' => 'customers#new'
@@ -7,6 +9,8 @@ Rails.application.routes.draw do
   get 'login' => 'sessions#new'
   post 'login' => 'sessions#create'
   delete 'logout' => 'sessions#destroy'
+
+  resources :admins
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
