@@ -3,9 +3,14 @@
     <div class="form">
 
       <h1>Log in</h1>
-      <%= form_for(:session, url: login_path) do |f| %> 
-  	<%= f.email_field :email, :placeholder => "Email" %> 
- 	<%= f.password_field :password, :placeholder => "Password" %> 
+      <%= form_for(:session, url: login_path, html: {id: "session"}) do |f| %> 
+  	<%= f.email_field :email, :placeholder => "Email" %><br/>
+ 	<%= f.password_field :password, :placeholder => "Password" %><br/> 
+        User Type: <select id="user_type" name="session[user_type]" form="session">
+  	  <option value="0" selected>Customer</option>
+  	  <option value="1">Administrator</option>
+  	  <option value="2">Super Administrator</option>
+	</select><br/>
   	<%= f.submit "Log in", class: "btn-submit" %>
       <% end %>
 

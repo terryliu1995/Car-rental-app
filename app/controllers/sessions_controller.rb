@@ -3,7 +3,8 @@ class SessionsController < ApplicationController
   end
 
   def create
-    @user = Customer.find_by email: params[:session][:email]
+    user_type = params[:session][:user_type].to_i
+    @user = Customer.find_by email: params[:session][:email] if user_type == 0
     if @user && @user.authenticate(params[:session][:password])
       session[:user_id] = @user.id
       redirect_to '/'
