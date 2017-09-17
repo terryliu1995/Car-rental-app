@@ -8,7 +8,25 @@
 </head>
 <body>
 
-<%= yield %>
+    <div class="header">
+      <div class="container">
+        <div class="nav pull-right">
+          <% if current_user %> 
+	    <ul> 
+	      <li><%= current_user.email %></li> 
+	      <li><%= link_to "Log out", logout_path, method: "delete" %></li> 
+            </ul> 
+	  <% else %> 
+	    <ul> 
+	      <li><%= link_to "Login", 'login' %></a></li> 
+	      <li><%= link_to "Signup", 'signup' %></a></li> 
+	    </ul> 
+	  <% end %>
+        </div>
+      </div>
+    </div>
 
-</body>
+    <%= yield %>
+
+  </body>
 </html>

@@ -6,6 +6,7 @@ class SessionsController < ApplicationController
     user_type = params[:session][:user_type].to_i
     @user = Customer.find_by email: params[:session][:email] if user_type == 0
     if @user && @user.authenticate(params[:session][:password])
+      session[:user_type] = user_type
       session[:user_id] = @user.id
       redirect_to '/'
     else
