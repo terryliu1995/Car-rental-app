@@ -11,7 +11,6 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20170917153524) do
 
   create_table "customers", force: :cascade do |t|
@@ -28,8 +27,6 @@ ActiveRecord::Schema.define(version: 20170917153524) do
     t.integer  "customer_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-=======
-ActiveRecord::Schema.define(version: 20170913035751) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email"
@@ -38,7 +35,6 @@ ActiveRecord::Schema.define(version: 20170913035751) do
     t.integer  "issuper"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
->>>>>>> Admin
   end
 
 end
