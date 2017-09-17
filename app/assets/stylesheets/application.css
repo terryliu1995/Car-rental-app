@@ -13,3 +13,196 @@
  *= require_tree .
  *= require_self
  */
+
+ html, body {
+  background: #fff;
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  padding: 0;
+  width: 100%;
+}
+
+/* HEADER */
+
+.pull-right {
+  position: inline;
+  margin: 20px 20px 0 0;
+}
+
+.header {
+  margin: 0;
+  padding: 0;
+}
+
+.header li {
+ display: inline;
+ margin-left: 30px;
+}
+
+.header img {
+  margin: 0 20px 0 0;
+  height: 80px;
+  width: 80px;
+}
+.header a {
+  color: #000;
+  font-size: 20px;  
+  text-decoration: none; 
+}
+
+.header a:hover {
+  color: #c91717;
+  text-decoration: none;   
+}
+
+/* ALBUMS */
+
+.album-info {
+  padding: 12px 24px 24px;
+  background-color: #F1f2f3;
+}
+
+.album-info h2 {
+  font-size: 18px;
+  text-transform: uppercase;
+  color: #000;
+  font-weight: bold;
+  margin: 0;
+}
+
+.album-info p {
+  color: #000;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.item {
+  margin: 0;  
+  padding: 0;
+}
+
+.item:hover a {
+  color: #c91717;
+  text-decoration: none;
+}
+
+.img-container {
+  height: 300px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.photo {
+  margin: 0 0 80px;   
+}
+.photo img {
+  width: 100%;
+}
+
+
+
+
+/* GALLERY VIEW */
+
+.photos h1 {
+  font-size: 24px;
+  text-align: center;
+  text-transform: uppercase;
+  color: #000;
+  font-weight: bold;
+  margin: 10px 0 20px;
+}
+
+.photo-info {
+  padding: 12px 24px 24px;
+  background-color: #000;
+  color: #fff;
+  opacity: 0.7;
+}
+
+.photo-info p {
+  margin: 0;
+}
+
+/* FORM PAGES */
+
+
+.form {
+  text-align:center;
+  margin: 0 auto 10px;
+  padding: 20px 0 10px 0;
+  font-size: 16px;
+  width: 300px;
+}
+
+input[type=text],
+input[type=email],
+input[type=password] {
+  color: #666666;
+  width: 100%;
+  border: 1px solid #E6E6E6;
+  border-radius: 0px; 
+  height: 60px;
+  margin: 6px auto;
+  text-indent: 10px;
+}
+
+.btn-submit {
+  color: #FFFFFF;
+  font-size: 18px;
+  text-transform: uppercase;
+  background: #c91717;
+  padding: 10px 20px;
+  border: 0;
+  margin-top: 6px;
+}
+  
+/*  RESPONSIVE */
+
+@media screen and (max-width: 992px) {
+  .img-container img {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 512px) {
+  .pull-right {
+    background-color: #f1f2f2;
+    position: relative;
+    margin: 0;
+    width: 100%;
+  }
+
+  .pull-right ul {
+    margin: 0;
+    -webkit-margin-after: 0;
+    -webkit-margin-before: 0;
+    -webkit-padding-start: 0;
+  }
+
+  .pull-right ul li {
+    display: block;
+    float: left;
+    margin: 0;
+    padding: 20px 0;
+    text-align: center;
+    width: 50%;
+  }
+
+  .pull-right ul li a {
+    display: block;
+    width: 100%;
+  }
+
+  .img-container {
+    height: 200px;
+  }
+}
+
+
