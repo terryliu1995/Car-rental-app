@@ -24,6 +24,7 @@ class CustomersController < ApplicationController
     @customer = Customer.new(customer_params)
 
     if @customer.save
+      session[:user_id] = @customer.id
       redirect_to @customer, notice: 'Customer was successfully created.'
     else
       render :new
@@ -53,6 +54,6 @@ class CustomersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def customer_params
-      params.require(:customer).permit(:email, :name, :password_digest)
+      params.require(:customer).permit(:email, :name, :password)
     end
 end
