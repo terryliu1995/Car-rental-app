@@ -24,6 +24,7 @@ class CustomersController < ApplicationController
     @customer = Customer.new(customer_params)
 
     if @customer.save
+      session[:user_type] = 0
       session[:user_id] = @customer.id
       redirect_to @customer, notice: 'Customer was successfully created.'
     else
