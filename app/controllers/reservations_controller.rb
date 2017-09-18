@@ -14,6 +14,7 @@ class ReservationsController < ApplicationController
   # GET /reservations/new
   def new
     @reservation = Reservation.new
+    @car = Car.find(params[:car_id])
   end
 
   # GET /reservations/1/edit
@@ -24,7 +25,7 @@ class ReservationsController < ApplicationController
   def create
     @reservation = Reservation.new(status: 0)
 
-    if @reservation.save
+    if @reservation.update(reservation_params)
       redirect_to @reservation, notice: 'Reservation was successfully created.'
     else
       render :new
@@ -58,6 +59,6 @@ class ReservationsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def reservation_params
-      # params.require(:reservation).permit(:car_id)
+      params.require(:reservation).permit(:car_id, :customer_id)
     end
 end
