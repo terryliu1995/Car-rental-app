@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170917231858) do
+ActiveRecord::Schema.define(version: 20170918173224) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 20170917231858) do
     t.float    "hourlyRentalRate"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+    t.string   "manufacturer"
   end
 
   create_table "customers", force: :cascade do |t|
@@ -45,9 +46,11 @@ ActiveRecord::Schema.define(version: 20170917231858) do
     t.integer  "status"
     t.datetime "endTime"
     t.integer  "customer_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.integer  "car_id"
+    t.datetime "checkout_time"
+    t.float    "rental_charge"
   end
 
 end

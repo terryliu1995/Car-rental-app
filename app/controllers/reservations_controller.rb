@@ -4,7 +4,17 @@ class ReservationsController < ApplicationController
 
   # GET /reservations
   def index
-    @reservations = Reservation.all
+    task = params[:task].to_i
+    @current_time = Time.new
+    if task == 0
+      @reservations = Reservation.all
+    elsif task == 1
+      @reservations = Reservation.where(customer_id: session[:user_id])
+    elsif task == 2
+      @reservations = Reservation.where(car_id: params[:car_id].to_i)
+    else
+      @reservations = []
+    end
   end
 
   # GET /reservations/1
