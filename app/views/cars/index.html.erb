@@ -5,6 +5,7 @@
 <table>
   <thead>
     <tr>
+      <th>Manufacturer</th>
       <th>Model</th>
       <th>Style</th>
       <th>Licenceplatenumber</th>
@@ -18,6 +19,7 @@
   <tbody>
     <% @cars.each do |car| %>
       <tr>
+        <td><%= car.manufacturer %></td>
         <td><%= car.model %></td>
         <td><%= car.style %></td>
         <td><%= car.licencePlateNumber %></td>
