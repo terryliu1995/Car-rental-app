@@ -11,9 +11,14 @@
     </div>
   <% end %>
 
+  <%= f.hidden_field(:rental_charge, :value => 0) %>
   <%= f.hidden_field(:customer_id, :value => session[:user_id]) %>
   <%= f.hidden_field(:car_id, :value => @car.id) %>
 
+  <div class="field">
+    <%= f.label :reserved_time %><br>
+    <%= Time.use_zone("Eastern Time (US & Canada)"){f.datetime_select :reserved_time} %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

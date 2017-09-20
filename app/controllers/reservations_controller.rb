@@ -1,11 +1,10 @@
 class ReservationsController < ApplicationController
-  before_action :set_reservation, only: [:show, :edit, :update, :destroy]
-  before_action :set_status, only: [:show, :index]
+  before_action :set_reservation, only: %i[show edit update destroy]
+  before_action :set_status, only: %i[show index]
 
   # GET /reservations
   def index
     task = params[:task].to_i
-    @current_time = Time.new
     if task == 0
       @reservations = Reservation.all
     elsif task == 1
@@ -15,10 +14,15 @@ class ReservationsController < ApplicationController
     else
       @reservations = []
     end
+    current_time = Time.new
+    @reservations.each do |r|
+      r.update_status
+    end
   end
 
   # GET /reservations/1
   def show
+    @reservation.update_status
   end
 
   # GET /reservations/new
@@ -28,14 +32,15 @@ class ReservationsController < ApplicationController
   end
 
   # GET /reservations/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /reservations
   def create
     @reservation = Reservation.new(status: 0)
 
     if @reservation.update(reservation_params)
+      @reservation.car.status = 2
+      @reservation.car.save
       redirect_to @reservation, notice: 'Reservation was successfully created.'
     else
       render :new
@@ -58,17 +63,30 @@ class ReservationsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_reservation
-      @reservation = Reservation.find(params[:id])
-    end
 
-    def set_status
-      @status = ["Active", "Closed"]
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_reservation
+    @reservation = Reservation.find(params[:id])
+  end
 
-    # Only allow a trusted parameter "white list" through.
-    def reservation_params
-      params.require(:reservation).permit(:car_id, :customer_id)
-    end
+  def set_status
+    @status = %w[Active Closed]
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def reservation_params
+    params.require(:reservation).permit(:car_id, :customer_id, :reserved_time, :rental_charge)
+  end
+
+  def auto_close(reservation)
+    Thread.new {
+      sleep reservation.reserved_time - Time.new + 1800
+      if reservation.status == 0 && reservation.car.status == 2
+        reservation.car.status = 0
+        reservation.status = 1
+        reservation.car.save
+        reservation.save
+      end
+    }
+  end
 end
