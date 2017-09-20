@@ -13,7 +13,31 @@
 </p>
 
 <p>
-  <%= link_to 'Car', @reservation.car %>
+  <strong>Reserved time:</strong>
+  <%= @reservation.reserved_time %>
+</p>
+
+<%if @reservation.checkout_time %>
+  <p>
+    <strong>Check out time:</strong>
+    <%= @reservation.checkout_time %>
+  </p>
+<% end %>
+
+<%if @reservation.end_time %>
+  <p>
+    <strong>Check in time:</strong>
+    <%= @reservation.end_time %>
+  </p>
+
+  <p>
+    <strong>Rental charge:</strong>
+    <%= sprintf("$ %0.02f", @reservation.rental_charge) %>
+  </p>
+<% end %>
+
+<p>
+  <%= link_to 'Reserved Car', @reservation.car %>
 </p>
 
 <%= link_to 'Edit', edit_reservation_path(@reservation) %> |
