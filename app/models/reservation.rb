@@ -15,7 +15,7 @@ class Reservation < ActiveRecord::Base
     self
   end
 
-  def close
+  def close_reservation
     current_time = Time.zone.now
     self.status = 1
     self.end_time = current_time
@@ -26,6 +26,7 @@ class Reservation < ActiveRecord::Base
   private
 
   def update_rental_charge(current_time)
-    self.rental_charge = car.hourlyRentalRate * (current_time - checkout_time) / 3600
+    duration = [1, (current_time - checkout_time) / 3600].max
+    self.rental_charge = car.hourlyRentalRate * duration
   end
 end
