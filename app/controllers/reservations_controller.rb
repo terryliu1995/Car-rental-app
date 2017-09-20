@@ -14,7 +14,6 @@ class ReservationsController < ApplicationController
     else
       @reservations = []
     end
-    current_time = Time.new
     @reservations.each do |r|
       r.update_status
     end

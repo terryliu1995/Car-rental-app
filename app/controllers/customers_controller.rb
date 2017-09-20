@@ -9,6 +9,7 @@ class CustomersController < ApplicationController
 
   # GET /customers/1
   def show
+    @reservation = @customer.current_reservation
   end
 
   # GET /customers/new

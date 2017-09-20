@@ -10,6 +10,19 @@
   <%= @customer.name %>
 </p>
 
+<% if @reservation %>
+  <p>
+    <strong>Rental Charge:</strong>
+    <%= @reservation.rental_charge %>
+  </p>
+
+  <% if @reservation.status == 0 %>
+    <p>
+      <%= link_to 'My reserved car', @reservation.car %>
+    </p>
+  <% end %>
+<% end %>
+
 <%= link_to 'All cars', cars_path %> |
 <%= link_to 'My reservations', "#{reservations_path}?task=1" %> |
 <%= link_to 'Edit', edit_customer_path(@customer) %> |

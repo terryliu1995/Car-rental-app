@@ -12,6 +12,7 @@ class Reservation < ActiveRecord::Base
     end
     car.save
     save
+    self
   end
 
   def close
