@@ -24,7 +24,7 @@ gem 'coffee-script-source', '1.8.0'
 gem 'jquery-rails'
 
 # To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
+gem 'bcrypt', '~> 3.1.7'
 
 # To use Jbuilder templates for JSON
 # gem 'jbuilder'
@@ -38,9 +38,8 @@ gem 'jquery-rails'
 # To use debugger
 # gem 'debugger'
 
+gem 'turbolinks'
+
 gem "tzinfo-data"
 
 gem 'capybara'
-
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'

@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Cars</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Manufacturer</th>
+      <th>Model</th>
+      <th>Style</th>
+      <th>Licenceplatenumber</th>
+      <th>Location</th>
+      <th>Status</th>
+      <th>Hourlyrentalrate</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @cars.each do |car| %>
+      <tr>
+        <td><%= car.manufacturer %></td>
+        <td><%= car.model %></td>
+        <td><%= car.style %></td>
+        <td><%= car.licencePlateNumber %></td>
+        <td><%= car.location %></td>
+        <td><%= car.status %></td>
+        <td><%= car.hourlyRentalRate %></td>
+        <td><%= link_to 'Show', car %></td>
+	<% if [1, 2].include?(session[:user_type]) %>
+        <td><%= link_to 'Edit', edit_car_path(car) %></td>
+        <td><%= link_to 'Destroy', car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+	<% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Car', new_car_path %>
