@@ -6,7 +6,11 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
   
   def current_user
-    @current_user ||= Customer.find(session[:user_id]) if session[:user_id] && 0==session[:user_type]
+    if session[:user_id]
+      @current_user ||= Customer.find(session[:user_id]) if 0==session[:user_type]
+      @current_user ||= Admin.find(session[:user_id]) if [1, 2].include?(session[:user_type])
+    end
+    return @current_user
   end
   
   def require_user

@@ -11,17 +11,17 @@
     <div class="header">
       <div class="container">
         <div class="nav pull-right">
-          <% if current_user %> 
-	    <ul> 
-	      <li><%= current_user.email %></li> 
-	      <li><%= link_to "Log out", logout_path, method: "delete" %></li> 
+          <% if (@current_user = current_user) %>
+	          <ul>
+            <li><%= link_to current_user.email, @current_user %></li>
+            <li><%= link_to "Log out", logout_path, method: "delete" %></li>
             </ul> 
-	  <% else %> 
-	    <ul> 
-	      <li><%= link_to "Login", 'login' %></a></li> 
-	      <li><%= link_to "Signup", 'signup' %></a></li> 
-	    </ul> 
-	  <% end %>
+          <% else %>
+            <ul>
+              <li><%= link_to "Login", login_path %></a></li>
+              <li><%= link_to "Signup", signup_path %></a></li>
+            </ul>
+          <% end %>
         </div>
       </div>
     </div>

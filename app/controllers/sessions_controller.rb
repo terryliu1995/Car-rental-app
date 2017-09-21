@@ -8,14 +8,14 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(params[:session][:password])
       session[:user_type] = user_type
       session[:user_id] = @user.id
-      redirect_to '/'
+      redirect_to customer_path(@user) if 0 == user_type
     else
-      redirect_to 'login'
+      redirect_to login_path
     end
   end
   
   def destroy
     session[:user_id] = nil
-    redirect_to '/'
+    redirect_to login_path
   end
 end

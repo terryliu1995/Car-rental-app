@@ -1,5 +1,6 @@
 class CustomersController < ApplicationController
   before_action :set_customer, only: [:show, :edit, :update, :destroy]
+  before_action :require_user, only: [:index, :show, :edit, :update, :destroy]
 
   # GET /customers
   def index
@@ -8,6 +9,7 @@ class CustomersController < ApplicationController
 
   # GET /customers/1
   def show
+    @reservation = @customer.current_reservation
   end
 
   # GET /customers/new
@@ -24,8 +26,10 @@ class CustomersController < ApplicationController
     @customer = Customer.new(customer_params)
 
     if @customer.save
-      session[:user_type] = 0
-      session[:user_id] = @customer.id
+      if !current_user
+        session[:user_type] = 0
+        session[:user_id] = @customer.id
+      end
       redirect_to @customer, notice: 'Customer was successfully created.'
     else
       render :new

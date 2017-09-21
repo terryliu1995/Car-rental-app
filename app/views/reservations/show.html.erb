@@ -1,8 +1,19 @@
 <p id="notice"><%= notice %></p>
 
+<h1>Reservation</h1>
+
 <p>
   <strong>Status:</strong>
-  <%= @reservation.status %>
+  <%= @status[@reservation.status] %>
+</p>
+
+<p>
+  <strong>Customer:</strong>
+  <%= link_to @reservation.customer.name, @reservation.customer %>
+</p>
+
+<p>
+  <%= link_to 'Car', @reservation.car %>
 </p>
 
 <%= link_to 'Edit', edit_reservation_path(@reservation) %> |

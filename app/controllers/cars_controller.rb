@@ -1,4 +1,5 @@
 class CarsController < ApplicationController
+  # Require user
   before_action :set_car, only: [:show, :edit, :update, :destroy]
 
   # GET /cars
@@ -8,6 +9,7 @@ class CarsController < ApplicationController
 
   # GET /cars/1
   def show
+    @reservation = @car.reservations.find_by(status: 0)
   end
 
   # GET /cars/new
@@ -53,6 +55,5 @@ class CarsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def car_params
-      params.require(:car).permit(:manufacturer, :model, :style, :licencePlateNumber, :location, :status, :hourlyRentalRate)
-    end
+      params.require(:car).permit(:manufacturer, :model, :style, :licencePlateNumber, :location, :status, :hourlyRentalRate)d
 end
