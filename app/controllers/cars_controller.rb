@@ -13,6 +13,9 @@ class CarsController < ApplicationController
         @cars = Car.all.where("style = ?", params[:search])
       end
       unless @cars.present?
+        @cars = Car.all.where("manufacturer = ?", params[:search])
+      end
+      unless @cars.present?
         if params[:search] == 'avaliable'
           flag = 0
         elsif params[:search] == 'checked out'

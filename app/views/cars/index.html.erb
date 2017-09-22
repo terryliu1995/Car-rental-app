@@ -40,6 +40,7 @@
 
 <br>
 <%= form_tag cars_path, method: :get do %>
+    <%= label_tag(:search, "Input the manufacturer/location/style/status") %>
     <%= text_field_tag :search %>
     <%= submit_tag "search" %>
  <% end %>
