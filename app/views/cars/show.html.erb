@@ -37,8 +37,6 @@
   <%= @car.hourlyRentalRate %>
 </p>
 
-<%= link_to 'return', "#{reservations_path}?car_id=#{@car.id}" %> |
-<%= link_to 'Check out', "#{reservations_path}?car_id=#{@car.id}" %> |
 <%= link_to 'Reserve', "#{new_reservation_path}?car_id=#{@car.id}" %> |
 <%= link_to 'Check out', "#{checkout_path}?car_id=#{@car.id}" %> |
 <% if @car.status == 1 %>

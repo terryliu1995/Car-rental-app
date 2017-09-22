@@ -68,8 +68,6 @@ class CarsController < ApplicationController
 
   def checkout
     @car = Car.find(params[:car_id].to_i)
-    @car.status = 1
-    @car.save
     user = current_user
     current_time = Time.zone.now
 
@@ -83,6 +81,8 @@ class CarsController < ApplicationController
     end
     @reservation.checkout_time = current_time
     @reservation.save
+    @car.status = 1
+    @car.save
 
     redirect_to @car
   end
