@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<p>
+<p>D
   <strong>Manufacturer:</strong>
   <%= @car.manufacturer %>
 </p>
@@ -27,7 +27,9 @@
 
 <p>
   <strong>Status:</strong>
-  <%= @car.status %>
+  <%=  'Available' if @car.status == 0 %>
+  <%=  'Checked out' if @car.status == 1 %>
+  <%=  'Reserve' if @car.status == 2 %>
 </p>
 
 <p>
@@ -35,6 +37,8 @@
   <%= @car.hourlyRentalRate %>
 </p>
 
+<%= link_to 'return', "#{reservations_path}?car_id=#{@car.id}" %> |
+<%= link_to 'Check out', "#{reservations_path}?car_id=#{@car.id}" %> |
 <%= link_to 'Reserve', "#{new_reservation_path}?car_id=#{@car.id}" %> |
 <%= link_to 'Check out', "#{checkout_path}?car_id=#{@car.id}" %> |
 <% if @car.status == 1 %>
@@ -43,3 +47,4 @@
 <%= link_to 'Car history', "#{reservations_path}?task=2&car_id=#{@car.id}" %> |
 <%= link_to 'Edit', edit_car_path(@car) %> |
 <%= link_to 'Back', cars_path %>
+

@@ -4,6 +4,7 @@ class ReservationsController < ApplicationController
 
   # GET /reservations
   def index
+      @reservations = Reservation.all
     task = params[:task].to_i
     if task == 0
       @reservations = Reservation.all

@@ -21,7 +21,8 @@
   </div>
   <div class="field">
     <%= f.label :style %><br>
-    <%= f.text_field :style %>
+    <%= f.select :style, options_for_select(["Seden", "Couple", "SUV"],
+                                            :class => 'genForm_dropBox')%>
   </div>
   <div class="field">
     <%= f.label :licencePlateNumber %><br>
@@ -32,8 +33,9 @@
     <%= f.text_field :location %>
   </div>
   <div class="field">
-    <%= f.label :status %><br>
-    <%= f.number_field :status %>
+    <%= f.label :status%><br>
+    <%= f.select(:status, options_for_select([['Available', 0], ['Checked out', 1], ['Reserved', 2]]),
+                   {class: "span2"}) %>
   </div>
   <div class="field">
     <%= f.label :hourlyRentalRate %><br>

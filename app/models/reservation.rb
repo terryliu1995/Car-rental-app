@@ -4,13 +4,13 @@ class Reservation < ActiveRecord::Base
 
   def update_status
     current_time = Time.zone.now
-    if status == 0 && car.status == 2 && current_time - reserved_time > 1800
+    if @car.status == 0 && @car.status == 2 && current_time - reserved_time > 1800
       car.status = 0
       self.status = 1
-    elsif status == 1 && car.status == 1
+    elsif status == 1 && @car.status == 1
       update_rental_charge(current_time)
     end
-    car.save
+    @car.save
     save
     self
   end
