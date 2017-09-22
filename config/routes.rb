@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   resources :cars
+  get '/checkout' => 'cars#checkout'
+  get '/checkin' => 'cars#checkin'
 
   resources :reservations
 

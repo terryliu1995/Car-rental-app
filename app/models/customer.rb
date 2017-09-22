@@ -6,7 +6,6 @@ class Customer < ActiveRecord::Base
 
   def current_reservation
     reservation = reservations.find_by(status: 0)
-    reservation = reservations.last unless reservation
     reservation.update_status if reservation
     reservation
   end

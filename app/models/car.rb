@@ -8,4 +8,10 @@ class Car < ActiveRecord::Base
   validates :location, presence: true
   validates :hourlyRentalRate, presence: true
   validates :status, presence: true, numericality: { only_integer: true }
+
+  def current_reservation
+    reservation = reservations.find_by(status: 0)
+    reservation.update_status if reservation
+    reservation
+  end
 end
