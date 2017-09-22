@@ -4,24 +4,16 @@ class CarsController < ApplicationController
 
   # GET /cars
   def index
-    if params[:search].present?
-      @cars = Car.all.where("model = ?", params[:search])
-      unless @cars.present?
-        @cars = Car.all.where("location = ?", params[:search])
+    if params[:slocation].present?|| params[:sstyle].present?|| params[:ssmodel].present? || params[:smanufactrer].present? || params[:status].present?
+      if params[:sstatus] == 'Avaliable'
+        flag = 0
+      elsif params[:sstatus] == 'Checked out'
+        flag = 1
+      elsif params[:sstatus] == 'Reserved'
+        flag = 2
       end
-      unless @cars.present?
-        @cars = Car.all.where("style = ?", params[:search])
-      end
-      unless @cars.present?
-        if params[:search] == 'avaliable'
-          flag = 0
-        elsif params[:search] == 'checked out'
-          flag = 1
-        elsif params[:search] == 'reserved'
-          flag = 2
-        end
-        @cars = Car.all.where("status = ?", flag)
-      end
+      @cars = Car.all.where("location = ? OR style = ? OR model = ? OR manufacturer = ? OR status = ?",
+                            params[:slocation], params[:sstyle], params[:smodel], params[:smanufacturer], flag)
     else
       @cars = Car.all
     end
@@ -107,6 +99,6 @@ class CarsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def car_params
-    params.require(:car).permit(:model, :style, :licencePlateNumber, :location, :status, :manufacturer, :hourlyRentalRate)
+    params.require(:car).permit(:model, :style, :licencePlateNum, :location, :status, :manufacturer, :hourlyRentalRate)
   end
 end

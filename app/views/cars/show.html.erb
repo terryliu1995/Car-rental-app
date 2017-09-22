@@ -17,7 +17,7 @@
 
 <p>
   <strong>Licenceplatenumber:</strong>
-  <%= @car.licencePlateNumber %>
+  <%= @car.licencePlateNum %>
 </p>
 
 <p>
@@ -45,4 +45,3 @@
 <%= link_to 'Car history', "#{reservations_path}?task=2&car_id=#{@car.id}" %> |
 <%= link_to 'Edit', edit_car_path(@car) %> |
 <%= link_to 'Back', cars_path %>
-
