@@ -4,7 +4,7 @@ class ReservationsController < ApplicationController
 
   # GET /reservations
   def index
-      @reservations = Reservation.all
+    @reservations = Reservation.all
     task = params[:task].to_i
     if task == 0
       @reservations = Reservation.all
@@ -15,7 +15,7 @@ class ReservationsController < ApplicationController
     else
       @reservations = []
     end
-    @reservations.each(&:update_status)
+    @reservations.each {|r| r.update_status}
   end
 
   # GET /reservations/1
