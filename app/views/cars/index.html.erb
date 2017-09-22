@@ -24,7 +24,9 @@
         <td><%= car.style %></td>
         <td><%= car.licencePlateNumber %></td>
         <td><%= car.location %></td>
-        <td><%= car.status %></td>
+        <td><%=  "Avaliable" if car.status == 0 %>
+        <%= "Checked out" if car.status == 1 %>
+        <%= "Rserved" if car.status == 2 %></td>
         <td><%= car.hourlyRentalRate %></td>
         <td><%= link_to 'Show', car %></td>
 	<% if [1, 2].include?(session[:user_type]) %>
@@ -37,5 +39,9 @@
 </table>
 
 <br>
-
+<%= form_tag cars_path, method: :get do %>
+    <%= text_field_tag :search %>
+    <%= submit_tag "search" %>
+ <% end %>
+<br/>
 <%= link_to 'New Car', new_car_path %>

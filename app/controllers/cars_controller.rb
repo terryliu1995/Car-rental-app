@@ -4,7 +4,27 @@ class CarsController < ApplicationController
 
   # GET /cars
   def index
-    @cars = Car.all
+    if params[:search].present?
+      @cars = Car.all.where("model = ?", params[:search])
+      unless @cars.present?
+        @cars = Car.all.where("location = ?", params[:search])
+      end
+      unless @cars.present?
+        @cars = Car.all.where("style = ?", params[:search])
+      end
+      unless @cars.present?
+        if params[:search] == 'avaliable'
+          flag = 0
+        elsif params[:search] == 'checked out'
+          flag = 1
+        elsif params[:search] == 'reserved'
+          flag = 2
+        end
+        @cars = Car.all.where("status = ?", flag)
+      end
+    else
+      @cars = Car.all
+    end
   end
 
   # GET /cars/1
@@ -20,7 +40,7 @@ class CarsController < ApplicationController
   # GET /cars/1/edit
   def edit; end
 
-  # POST /cars
+  # POST /cars  git commit --amend --reset-author
   def create
     @car = Car.new(car_params)
 
