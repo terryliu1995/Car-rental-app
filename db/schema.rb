@@ -46,12 +46,13 @@ ActiveRecord::Schema.define(version: 20170918173224) do
     t.integer  "status"
     t.datetime "endTime"
     t.integer  "customer_id"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
     t.integer  "car_id"
     t.datetime "reserved_time"
     t.datetime "checkout_time"
     t.datetime "end_time"
+    t.integer  "reserved_hours"
     t.float    "rental_charge"
   end
 

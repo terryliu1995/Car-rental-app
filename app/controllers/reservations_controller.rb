@@ -14,9 +14,7 @@ class ReservationsController < ApplicationController
     else
       @reservations = []
     end
-    @reservations.each do |r|
-      r.update_status
-    end
+    @reservations.each(&:update_status)
   end
 
   # GET /reservations/1
@@ -74,11 +72,12 @@ class ReservationsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def reservation_params
-    params.require(:reservation).permit(:car_id, :customer_id, :reserved_time, :rental_charge)
+    params.require(:reservation).permit(:car_id, :customer_id, :reserved_time,
+                                        :reserved_hours, :rental_charge)
   end
 
   def auto_close(reservation)
-    Thread.new {
+    Thread.new do
       sleep reservation.reserved_time - Time.new + 1800
       if reservation.status == 0 && reservation.car.status == 2
         reservation.car.status = 0
@@ -86,6 +85,6 @@ class ReservationsController < ApplicationController
         reservation.car.save
         reservation.save
       end
-    }
+    end
   end
 end

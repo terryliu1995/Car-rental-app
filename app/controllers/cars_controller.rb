@@ -69,7 +69,7 @@ class CarsController < ApplicationController
 
   def checkin
     @car = Car.find(params[:car_id].to_i)
-    @car.status = 1
+    @car.status = 0
     @car.save
     @reservation = @car.current_reservation
 

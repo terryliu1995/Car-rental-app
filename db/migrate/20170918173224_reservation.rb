@@ -4,6 +4,7 @@ class Reservation < ActiveRecord::Migration
       t.datetime :reserved_time
       t.datetime :checkout_time
       t.datetime :end_time
+      t.integer :reserved_hours
       t.float :rental_charge
     end
   end
