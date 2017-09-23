@@ -5,6 +5,7 @@ class SessionsController < ApplicationController
   def create
     user_type = params[:session][:user_type].to_i
     @user = Customer.find_by email: params[:session][:email] if user_type == 0
+    @user = Admin.find_by email: params[:session][:email] if user_type == 1
     if @user && @user.authenticate(params[:session][:password])
       session[:user_type] = user_type
       session[:user_id] = @user.id
@@ -16,6 +17,6 @@ class SessionsController < ApplicationController
   
   def destroy
     session[:user_id] = nil
-    redirect_to login_path
+    redirect_to '/'
   end
 end

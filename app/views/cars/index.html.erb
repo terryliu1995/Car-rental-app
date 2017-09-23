@@ -22,9 +22,11 @@
         <td><%= car.manufacturer %></td>
         <td><%= car.model %></td>
         <td><%= car.style %></td>
-        <td><%= car.licencePlateNumber %></td>
+        <td><%= car.licencePlateNum %></td>
         <td><%= car.location %></td>
-        <td><%= car.status %></td>
+        <td><%=  "Avaliable" if car.status == 0 %>
+        <%= "Checked out" if car.status == 1 %>
+        <%= "Rserved" if car.status == 2 %></td>
         <td><%= car.hourlyRentalRate %></td>
         <td><%= link_to 'Show', car %></td>
 	<% if [1, 2].include?(session[:user_type]) %>
@@ -37,5 +39,18 @@
 </table>
 
 <br>
-
+<%= form_tag cars_path, method: :get do %>
+    <%= label_tag(:sstyle, "Input the style") %>
+    <%= text_field_tag :sstyle %>
+    <%= label_tag(:slocation, "Input the location") %>
+    <%= text_field_tag :slocation %>
+    <%= label_tag(:smodel, "Input the model") %>
+    <%= text_field_tag :smodel %>
+    <%= label_tag(:smanufacturer, "Input the manufacturer") %>
+    <%= text_field_tag :smanufacturer %>
+    <%= label_tag(:sstatus, "Input the status") %>
+    <%= text_field_tag :sstatus %>
+    <%= submit_tag "search" %>
+ <% end %>
+<br/>
 <%= link_to 'New Car', new_car_path %>
