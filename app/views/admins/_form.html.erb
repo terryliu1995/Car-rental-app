@@ -23,10 +23,17 @@
     <%= f.label :password %><br>
     <%= f.text_field :password %>
   </div>
-  <div class="field">
-    <%= f.label :"issuper? [hint: 1: Admin, 2: SuperAdmin]" %><br>
-    <%= f.number_field :issuper %>
-  </div>
+
+    <% if 1==current_user.issuper %>
+      <div class="field">
+        <%= f.label :"Authority?" %><br>
+        <%= f.select(:issuper,[['Admin',1]]) %>
+      </div>
+    <% elsif 2==current_user.issuper %>
+        <%= f.label :"Authority?" %><br>
+        <%= f.select(:issuper,[['Admin',1],['SuperAdmin',2]]) %>
+    <% end %>
+  <br><br>
   <div class="actions">
     <%= f.submit %>
   </div>
