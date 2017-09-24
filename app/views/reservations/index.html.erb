@@ -22,11 +22,19 @@
         <td><%= reservation.checkout_time %></td>
         <td><%= sprintf("$ %0.02f", reservation.rental_charge) %></td>
         <td><%= reservation.created_at %></td>
+        <% if session[:user_type]!=0%>
         <td><%= link_to 'Show', reservation %></td>
         <td><%= link_to 'Edit', edit_reservation_path(reservation) %></td>
         <td><%= link_to 'Destroy', reservation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </tbody>
 </table>
+
+<% if session[:user_type]==0%>
+<%= link_to "Back", current_user %>
+<% else %>
+    <%= link_to "Back",customers_url %>
+<% end %>
 

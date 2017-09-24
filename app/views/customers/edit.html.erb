@@ -1,6 +1,8 @@
 <h1>Editing Customer</h1>
 
 <%= render 'form' %>
-
-<%= link_to 'Show', @customer %> |
-<%= link_to 'Back', customers_path %>
+<% if session[:user_type] ==0 %>
+    <%= link_to 'Back', @customer %>
+<% else %>
+    <%= link_to 'Back', customers_path %>
+<% end %>
