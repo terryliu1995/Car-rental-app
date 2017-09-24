@@ -7,8 +7,7 @@
     <tr>
       <th>Email</th>
       <th>Name</th>
-      <th>Password</th>
-      <th>Issuper</th>
+      <th>Authority</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -18,11 +17,12 @@
       <tr>
         <td><%= admin.email %></td>
         <td><%= admin.name %></td>
-        <td><%= admin.password %></td>
-        <td><%= admin.issuper %></td>
-        <td><%= link_to 'Show', admin %></td>
-        <td><%= link_to 'Edit', edit_admin_path(admin) %></td>
-        <td><%= link_to 'Destroy', admin, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= "Admin" if 1==admin.issuper %>
+        <%="SuperAdmin" if 2==admin.issuper%></td>
+
+        <td><%= link_to 'Edit Profile', edit_admin_path(admin) %></td>
+
+        <td><%= link_to 'Destroy', admin, method: :delete, data: { confirm: 'Are you sure?' } unless admin.issuper==2 %></td>
       </tr>
     <% end %>
   </tbody>
@@ -30,4 +30,5 @@
 
 <br>
 
-<%= link_to 'New Admin', new_admin_path %>
+<%= link_to 'Create a New Admin', new_admin_path %>|
+<%= link_to 'Back to Main Menu', admin_path(current_user) %>

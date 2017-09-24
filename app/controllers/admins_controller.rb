@@ -1,5 +1,6 @@
 class AdminsController < ApplicationController
   before_action :set_admin, only: [:show, :edit, :update, :destroy]
+  before_action :require_user, only: [:index, :show, :edit, :update, :destroy]
 
   # GET /admins
   def index
