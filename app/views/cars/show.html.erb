@@ -36,12 +36,18 @@
   <strong>Hourlyrentalrate:</strong>
   <%= @car.hourlyRentalRate %>
 </p>
+<% if #TODO %>
 
-<%= link_to 'Reserve', "#{new_reservation_path}?car_id=#{@car.id}" %> |
-<%= link_to 'Check out', "#{checkout_path}?car_id=#{@car.id}" %> |
-<% if @car.status == 1 %>
-    <%= link_to 'Check in', "#{checkin_path}?car_id=#{@car.id}" %> |
+  <% if @car.status==0%>
+  <%= link_to 'Reserve', "#{new_reservation_path}?car_id=#{@car.id}" %> |
+  <%= link_to 'Check out', "#{checkout_path}?car_id=#{@car.id}" %> |
+  <% end %>
+  <% if @car.status == 1 %>
+      <%= link_to 'Check in', "#{checkin_path}?car_id=#{@car.id}" %> |
+  <% end %>
+  <% if [1, 2].include?(session[:user_type]) %>
+  <%= link_to 'Car Rental history', "#{reservations_path}?task=2&car_id=#{@car.id}" %> |
+  <% end %>
+
 <% end %>
-<%= link_to 'Car history', "#{reservations_path}?task=2&car_id=#{@car.id}" %> |
-<%= link_to 'Edit', edit_car_path(@car) %> |
 <%= link_to 'Back', cars_path %>

@@ -24,8 +24,6 @@
     <%= f.number_field(:reserved_hours, in: 1..10, step: 1, :value => 1) %>
   </div>
   <div class="actions">
-    <% unless   %>
     <%= f.submit %>
-    <% end %>
   </div>
 <% end %>
