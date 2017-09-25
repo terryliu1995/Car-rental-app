@@ -39,6 +39,7 @@ class CarsController < ApplicationController
   # GET /cars/1
   def show
     @reservation = @car.reservations.find_by(status: 0)
+    @customer = current_user
   end
 
   # GET /cars/new
