@@ -11,14 +11,14 @@
 </p>
 
 <p>
-  <strong>Password:</strong>
-  <%= @admin.password %>
+  <strong>Authority:</strong>
+  <%= "Admin" if @admin.issuper==1 %>
+  <%= "SuperAdmin" if @admin.issuper==2%>
 </p>
 
-<p>
-  <strong>Issuper:</strong>
-  <%= @admin.issuper %>
-</p>
-
-<%= link_to 'Edit', edit_admin_path(@admin) %> |
-<%= link_to 'Back', admins_path %>
+<%= link_to "Edit Profile", edit_admin_path(@admin) %>
+<br><br>
+<%= "Function: " %>
+<%= link_to 'Manage Admin', admins_path %>|
+<%= link_to 'Manage Car', cars_path %>|
+<%= link_to  'Manage Customer', customers_path %>

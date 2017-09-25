@@ -7,27 +7,33 @@
     <tr>
       <th>Email</th>
       <th>Name</th>
-      <th>Password</th>
-      <th>Issuper</th>
+      <th>Authority</th>
       <th colspan="3"></th>
     </tr>
   </thead>
 
   <tbody>
-    <% @admins.each do |admin| %>
+  <% @admins.each do |admin| %>
       <tr>
         <td><%= admin.email %></td>
         <td><%= admin.name %></td>
-        <td><%= admin.password %></td>
-        <td><%= admin.issuper %></td>
-        <td><%= link_to 'Show', admin %></td>
-        <td><%= link_to 'Edit', edit_admin_path(admin) %></td>
-        <td><%= link_to 'Destroy', admin, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
+        <td><%="SuperAdmin" if 2==admin.issuper%>
+        <%="Admin" if 1==admin.issuper%>
+        </td>
+
+        <% if admin.id!=current_user.id %>
+            <td><%= link_to 'Destroy', admin, method: :delete,data: { confirm: 'Are you sure?' }unless admin.issuper==2%></td>
+        <% else %>
+            <td><%= "\"you are here\"" %></td>
+        <% end %>
       </tr>
-    <% end %>
+  <% end %>
   </tbody>
+
 </table>
 
 <br>
 
-<%= link_to 'New Admin', new_admin_path %>
+<%= link_to 'Create a New Admin', new_admin_path %>|
+<%= link_to 'Back to Main Menu', admin_path(current_user) %>

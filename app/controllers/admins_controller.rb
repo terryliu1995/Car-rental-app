@@ -1,5 +1,6 @@
 class AdminsController < ApplicationController
   before_action :set_admin, only: [:show, :edit, :update, :destroy]
+  before_action :require_user, only: [:index, :show, :edit, :update, :destroy]
 
   # GET /admins
   def index
@@ -24,7 +25,7 @@ class AdminsController < ApplicationController
     @admin = Admin.new(admin_params)
 
     if @admin.save
-      redirect_to @admin, notice: 'Admin was successfully created.'
+      redirect_to admins_url, notice: 'Admin was successfully created.'
     else
       render :new
     end

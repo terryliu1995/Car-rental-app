@@ -4,7 +4,7 @@ class CarsController < ApplicationController
 
   # GET /cars
   def index
-    if params[:slocation].present?|| params[:sstyle].present?|| params[:ssmodel].present? || params[:smanufactrer].present? || params[:status].present?
+    if params[:sstatus].present?
       if params[:sstatus] == 'Avaliable'
         flag = 0
       elsif params[:sstatus] == 'Checked out'
@@ -12,8 +12,25 @@ class CarsController < ApplicationController
       elsif params[:sstatus] == 'Reserved'
         flag = 2
       end
-      @cars = Car.all.where("location = ? OR style = ? OR model = ? OR manufacturer = ? OR status = ?",
-                            params[:slocation], params[:sstyle], params[:smodel], params[:smanufacturer], flag)
+    end
+    if params[:sstyle].present? || params[:slocation].present? || params[:smodel].present? || params[:smanufacturer].present? || params[:sstatus].present?
+      condtion = ''
+      if params[:sstyle].present?
+        condtion  += ".where(:style => params[:sstyle])"
+      end
+      if params[:slocation].present?
+        condtion += ".where(:location => params[:slocation])"
+      end
+      if params[:smodel].present?
+        condtion += ".where(:model => params[:smodel])"
+      end
+      if params[:smanufacturer].present?
+        condtion += ".where(:manufacturer => params[:smanufacturer])"
+      end
+      if params[:sstatus].present?
+        condtion += ".where(:status => flag)"
+      end
+      @cars = eval("Car#{condtion}")
     else
       @cars = Car.all
     end

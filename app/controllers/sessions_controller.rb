@@ -10,6 +10,7 @@ class SessionsController < ApplicationController
       session[:user_type] = user_type
       session[:user_id] = @user.id
       redirect_to customer_path(@user) if 0 == user_type
+      redirect_to admin_path(@user) if 1==user_type
     else
       redirect_to login_path
     end
