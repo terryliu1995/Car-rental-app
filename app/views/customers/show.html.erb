@@ -29,7 +29,7 @@
 
 <%= link_to "Rent Cars", cars_path %>|
 
-<%= link_to 'Checkout history', "#{reservations_path}?task=1" %>
+<%= link_to 'Checkout history', "#{reservations_path}?task=1&customer_id=#{session[:user_id]}" %>
 
 <% if [1,2].include?(session[:user_type]) %>
 |<%= link_to "Back", customers_path %>

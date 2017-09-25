@@ -7,3 +7,5 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 Admin.create(email: 'root@ncsu', name: 'root', password: 'root', issuper: 2)
+Customer.create(email: 'a@b.c', name: 'a', password: '1')
+Customer.create(email: 'c@d.e', name: 'c', password: '1')

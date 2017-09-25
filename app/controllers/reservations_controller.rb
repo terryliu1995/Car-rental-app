@@ -9,7 +9,7 @@ class ReservationsController < ApplicationController
     if task == 0
       @reservations = Reservation.all
     elsif task == 1
-      @reservations = Reservation.where(customer_id: session[:user_id])
+      @reservations = Reservation.where(customer_id: params[:customer_id].to_i)
     elsif task == 2
       @reservations = Reservation.where(car_id: params[:car_id].to_i)
     else

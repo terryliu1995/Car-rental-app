@@ -38,8 +38,10 @@
 </p>
 
 <% if @car.status==0 %>
-<%= link_to 'Reserve', "#{new_reservation_path}?car_id=#{@car.id}" %> |
-<%= link_to 'Check out', "#{checkout_path}?car_id=#{@car.id}" %> |
+    <%= link_to 'Reserve', "#{new_reservation_path}?car_id=#{@car.id}" %> |
+<% end %>
+<% if @car.status != 1 %>
+    <%= link_to 'Check out', "#{checkout_path}?car_id=#{@car.id}" %> |
 <% end %>
 <% if @car.status == 1 %>
     <%= link_to 'Check in', "#{checkin_path}?car_id=#{@car.id}" %> |
