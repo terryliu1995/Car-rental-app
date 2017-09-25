@@ -3,4 +3,6 @@
 <%= render 'form' %>
 <% if [1,2].include?(session[:user_type])%>
 <%= link_to 'Back', reservations_path %>
+<% else %>
+    <%=link_to 'Back',cars_path %>
 <% end %>
