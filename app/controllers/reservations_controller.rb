@@ -15,7 +15,7 @@ class ReservationsController < ApplicationController
     else
       @reservations = []
     end
-    @reservations.each {|r| r.update_status}
+    @reservations.each(&:update_status)
   end
 
   # GET /reservations/1
@@ -27,6 +27,11 @@ class ReservationsController < ApplicationController
   def new
     @reservation = Reservation.new
     @car = Car.find(params[:car_id])
+    @customer = if params[:customer_id] && params[:customer_id] == 1
+                  Customer.find(params[:customer_id])
+                else
+                  Customer.find(session[:user_id])
+                end
   end
 
   # GET /reservations/1/edit
@@ -37,11 +42,17 @@ class ReservationsController < ApplicationController
     @reservation = Reservation.new(status: 0)
 
     if @reservation.update(reservation_params)
-      @reservation.car.status = 2
-      @reservation.car.save
-      redirect_to @reservation, notice: 'Reservation was successfully created.'
+      time_diff = @reservation.reserved_time - Time.zone.now
+      if time_diff < -1800 || time_diff > 3600 * 24 * 7
+        @reservation.destroy
+        redirect_to "#{new_reservation_path}?car_id=#{params[:reservation][:car_id]}&customer_id=#{params[:reservation][:customer_id]}", notice: 'Invalid reservation time!'
+      else
+        @reservation.car.status = 2
+        @reservation.car.save
+        redirect_to @reservation, notice: 'Reservation was successfully created.'
+      end
     else
-      render :new
+      redirect_to "#{new_reservation_path}?car_id=#{params[:reservation][:car_id]}&customer_id=#{params[:reservation][:customer_id]}", notice: 'Invalid reservation parameter!'
     end
   end
 
