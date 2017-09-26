@@ -23,7 +23,7 @@ password: root
 5. The search engine is working. You can search cars with any attributes you want, but one thing i need to say is that the search engine is case sensitive, which means you should input things that car list shows.
 6. You can checkout and reserve a avaliable car. If you want to reserve a car, you need select datetime and time period. After you reserve a car, you can find your reserved car in your main page(accout page). You can checkin by click "my reserved car".
 7. Thank you to read this file! Happy coding!
-* out Email
+* our Email
 zliu48@ncsu.edu
 kyang12@ncsu.edu
 azhou6@ncsu.edu
