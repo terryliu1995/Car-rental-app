@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 20170925214646) do
   end
 
   create_table "cars", force: :cascade do |t|
+    t.string   "manufacturer"
     t.string   "model"
     t.string   "style"
     t.string   "location"
@@ -30,7 +31,6 @@ ActiveRecord::Schema.define(version: 20170925214646) do
     t.float    "hourlyRentalRate"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
-    t.string   "manufacturer"
     t.string   "licencePlateNum"
   end
 
