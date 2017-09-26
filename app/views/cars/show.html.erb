@@ -36,25 +36,34 @@
   <strong>Hourlyrentalrate:</strong>
   <%= @car.hourlyRentalRate %>
 </p>
-  <% if @customer.current_reservation && @car.status == 0 %>
-      <%= "You are not allow to reserve or rent two cars in the meantime! Please click back!" %> <br>
-  <% elsif @customer.current_reservation && @car.status == 2 %>
-    <%= link_to 'Check out', "#{checkout_path}?car_id=#{@car.id}" %><br>
-  <% elsif @customer.current_reservation && @car.status == 1 %>
-    <%= link_to 'Check in', "#{checkin_path}?car_id=#{@car.id}" %><br>
-  <% else %>
+
+<% if @customer.current_reservation %>
+    <% if @customer.current_reservation.car_id == @car.id %>
+        <% if @car.status == 2 %>
+            <%= link_to 'Check out', "#{checkout_path}?car_id=#{@car.id}" %> |
+        <% end %>
+        <% if @car.status == 1 %>
+            <%= link_to 'Check in', "#{checkin_path}?car_id=#{@car.id}" %> |
+        <% end %>
+    <% else %>
+        <%= "You aren't allow to reserve or rent two cars in the meantime! Pleace click back!" %>
+    <% end %>
+<% else %>
     <% if @car.status == 0 %>
-        <%= link_to 'Reserve', "#{new_reservation_path}?car_id=#{@car.id}" %>
-        <%= link_to 'Check out', "#{checkout_path}?car_id=#{@car.id}" %>
+        <%= link_to 'Reserve', "#{new_reservation_path}?car_id=#{@car.id}" %> |
+        <%= link_to 'Check out', "#{checkout_path}?car_id=#{@car.id}" %> |
     <% end %>
     <% if @car.status == 2 %>
-        <%= link_to 'Check out', "#{checkout_path}?car_id=#{@car.id}" %>
+        <%= link_to 'Check out', "#{checkout_path}?car_id=#{@car.id}" %> |
     <% end %>
     <% if @car.status == 1 %>
-      <%= link_to 'Check in', "#{checkin_path}?car_id=#{@car.id}" %> |
+        <%= link_to 'Check in', "#{checkin_path}?car_id=#{@car.id}" %> |
     <% end %>
-    <% if [1, 2].include?(session[:user_type]) %>
+<% end %>
+
+<% if [1, 2].include?(session[:user_type]) %>
     <%= link_to 'Car Rental history', "#{reservations_path}?task=2&car_id=#{@car.id}" %> |
-    <% end%>
-<% end%>
+<% end %>
+
 <%= link_to 'Back', cars_path %>
+
