@@ -36,6 +36,18 @@
   </p>
 <% end %>
 
+<% if 0==@reservation.status %>
+    <% if @reservation.car.status==2 %>
+        <p>
+          <%= link_to 'Check out', "#{checkout_path}?car_id=#{@reservation.car.id}" %>
+        </p>
+    <% elsif @reservation.car.status==1 %>
+        <p>
+          <%= link_to 'Check in', "#{checkin_path}?car_id=#{@reservation.car.id}" %>
+        </p>
+    <% end %>
+<% end %>
+
 <p>
   <%= link_to 'Back to Main Menu', current_user %>
 </p>
