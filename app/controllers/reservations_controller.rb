@@ -26,7 +26,8 @@ class ReservationsController < ApplicationController
   def new
     @reservation = Reservation.new
     @car = Car.find(params[:car_id])
-    @customer = if params[:customer_id] && params[:customer_id] > 0
+    customer_id = params[:customer_id].to_i
+    @customer = if customer_id && customer_id > 0
                   Customer.find(params[:customer_id])
                 else
                   Customer.find(session[:user_id])

@@ -5,8 +5,10 @@ class CarsController < ApplicationController
   # GET /cars
   def index
     task = params[:task].to_i
+    @parameters = ""
     if task == 1  # on behalf of customer to reserve cars
-      @customer = Customer.find_by(params[:customer_id].to_i)
+      @customer = Customer.find(params[:customer_id].to_i)
+      @parameters += "&task=#{task}&customer_id=#{@customer.id}"
     else
       @customer = current_user
     end
@@ -46,7 +48,7 @@ class CarsController < ApplicationController
   def show
     @reservation = @car.reservations.find_by(status: 0)
     if [1, 2].include?(session[:user_type])
-      @customer = Customer.find_by(params[:customer_id].to_i)
+      @customer = Customer.find(params[:customer_id].to_i)
     else
     @customer = current_user
     end

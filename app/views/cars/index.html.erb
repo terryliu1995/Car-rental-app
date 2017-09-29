@@ -29,7 +29,7 @@
         <%= "Rserved" if car.status == 2 %></td>
         <td><%= car.hourlyRentalRate %></td>
 	<% if [1, 2].include?(session[:user_type]) %>
-        <td><%= link_to 'Details', "#{car_path(car)}?car_id=#{car.id}&customer_id=#{@customer.id}"%></td>
+        <td><%= link_to 'Details', "#{car_path(car)}?car_id=#{car.id}#{@parameters}"%></td>
         <td><%= link_to 'Edit', edit_car_path(car) %></td>
         <td><%= link_to 'Destroy', car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
 	<% else %>
