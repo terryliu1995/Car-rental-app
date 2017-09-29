@@ -4,7 +4,6 @@ class ReservationsController < ApplicationController
 
   # GET /reservations
   def index
-    @reservations = Reservation.all
     task = params[:task].to_i
     if task == 0
       @reservations = Reservation.all
@@ -27,7 +26,7 @@ class ReservationsController < ApplicationController
   def new
     @reservation = Reservation.new
     @car = Car.find(params[:car_id])
-    @customer = if params[:customer_id] && params[:customer_id] == 1
+    @customer = if params[:customer_id] && params[:customer_id] > 0
                   Customer.find(params[:customer_id])
                 else
                   Customer.find(session[:user_id])
