@@ -4,42 +4,52 @@ class CarsController < ApplicationController
 
   # GET /cars
   def index
-    if params[:sstatus].present?
-      if params[:sstatus] == 'Avaliable'
-        flag = 0
-      elsif params[:sstatus] == 'Checked out'
-        flag = 1
-      elsif params[:sstatus] == 'Reserved'
-        flag = 2
-      end
-    end
-    if params[:sstyle].present? || params[:slocation].present? || params[:smodel].present? || params[:smanufacturer].present? || params[:sstatus].present?
-      condtion = ''
-      if params[:sstyle].present?
-        condtion  += ".where(:style => params[:sstyle])"
-      end
-      if params[:slocation].present?
-        condtion += ".where(:location => params[:slocation])"
-      end
-      if params[:smodel].present?
-        condtion += ".where(:model => params[:smodel])"
-      end
-      if params[:smanufacturer].present?
-        condtion += ".where(:manufacturer => params[:smanufacturer])"
-      end
-      if params[:sstatus].present?
-        condtion += ".where(:status => flag)"
-      end
-      @cars = eval("Car#{condtion}")
+    task = params[:task].to_i
+    if task == 1  # on behalf of customer to reserve cars
+      @customer = Customer.find_by(params[:customer_id].to_i)
     else
-      @cars = Car.all
+      @customer = current_user
     end
+      if params[:sstatus].present?
+        if params[:sstatus] == 'avaliable'
+          flag = 0
+        elsif params[:sstatus] == 'checked out'
+          flag = 1
+        elsif params[:sstatus] == 'reserved'
+          flag = 2
+        end
+      end
+      if params[:sstyle].present? || params[:slocation].present? || params[:smodel].present? || params[:smanufacturer].present? || params[:sstatus].present?
+        condtion = ''
+        if params[:sstyle].present?
+          condtion  += ".where(:style => params[:sstyle])"
+        end
+        if params[:slocation].present?
+          condtion += ".where(:location => params[:slocation])"
+        end
+        if params[:smodel].present?
+          condtion += ".where(:model => params[:smodel])"
+        end
+        if params[:smanufacturer].present?
+          condtion += ".where(:manufacturer => params[:smanufacturer])"
+        end
+        if params[:sstatus].present?
+          condtion += ".where(:status => flag)"
+        end
+        @cars = eval("Car#{condtion}")
+      else
+        @cars = Car.all
+      end
   end
 
   # GET /cars/1
   def show
     @reservation = @car.reservations.find_by(status: 0)
+    if [1, 2].include?(session[:user_type])
+      @customer = Customer.find_by(params[:customer_id].to_i)
+    else
     @customer = current_user
+    end
   end
 
   # GET /cars/new

@@ -28,11 +28,13 @@
         <%= "Checked out" if car.status == 1 %>
         <%= "Rserved" if car.status == 2 %></td>
         <td><%= car.hourlyRentalRate %></td>
-        <td><%= link_to 'Details', car %></td>
 	<% if [1, 2].include?(session[:user_type]) %>
+        <td><%= link_to 'Details', "#{car_path(car)}?car_id=#{car.id}&customer_id=#{@customer.id}"%></td>
         <td><%= link_to 'Edit', edit_car_path(car) %></td>
         <td><%= link_to 'Destroy', car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-	<% end %>
+	<% else %>
+        <td><%= link_to 'Details', car %></td>
+  <% end %>
       </tr>
     <% end %>
   </tbody>
@@ -49,14 +51,14 @@
 <br>
 <%= form_tag cars_path, method: :get do %>
     <%= label_tag(:sstyle, "Input the style") %>
-    <%= text_field_tag :sstyle %>
+    <%= select_tag :sstyle, options_for_select(Car.all.map {|a| a.style})%>  <br>
     <%= label_tag(:slocation, "Input the location") %>
-    <%= text_field_tag :slocation %>
+    <%= select_tag :slocation, options_for_select(Car.all.map {|a| a.location})%>
     <%= label_tag(:smodel, "Input the model") %>
-    <%= text_field_tag :smodel %>
+    <%= select_tag :smodel, options_for_select(Car.all.map {|a| a.model})%>
     <%= label_tag(:smanufacturer, "Input the manufacture") %>
-    <%= text_field_tag :smanufacturer %>
+    <%= select_tag :smanufacturer, options_for_select(Car.all.map {|a| a.manufacturer})%>
     <%= label_tag(:sstatus, "Input the status") %>
-    <%= text_field_tag :sstatus %>
+    <%= select_tag :slocation, options_for_select(Car.all.map {|a| a.status})%>
     <%= submit_tag "search" %>
 <% end %>
