@@ -20,11 +20,11 @@ Car.create(manufacturer: 'Toyota', model: 'Camry', style: 'Seden', location: 'Ca
            hourlyRentalRate: '30.0', licencePlateNum: 'NC0003', status: 0)
 Car.create(manufacturer: 'Toyota', model: 'Rav4', style: 'SUV', location: 'Durham',
            hourlyRentalRate: '50.0', licencePlateNum: 'NC0004', status: 0)
-Car.create(manufacturer: 'Ford', model: 'Focus', style: 'Couple', location: 'Chapel Hill',
+Car.create(manufacturer: 'Ford', model: 'Focus', style: 'Coupe', location: 'Chapel Hill',
            hourlyRentalRate: '30.0', licencePlateNum: 'NC0005', status: 0)
 Car.create(manufacturer: 'Ford', model: 'Escape', style: 'SUV', location: 'Chapel Hill',
            hourlyRentalRate: '50.0', licencePlateNum: 'NC0006', status: 0)
 Car.create(manufacturer: 'BMW', model: 'X5', style: 'SUV', location: 'Raleigh',
            hourlyRentalRate: '100.0', licencePlateNum: 'NC0007', status: 0)
-Car.create(manufacturer: 'Cherry', model: 'QQ', style: 'Couple', location: 'Beijing',
+Car.create(manufacturer: 'Cherry', model: 'QQ', style: 'Coupe', location: 'Beijing',
            hourlyRentalRate: '10000.0', licencePlateNum: 'BJ0001', status: 0)

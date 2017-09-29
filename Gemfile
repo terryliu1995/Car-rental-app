@@ -36,7 +36,7 @@ gem 'bcrypt', '~> 3.1.7'
 # gem 'capistrano'
 
 # To use debugger
-# gem 'debugger'
+#gem 'debugger'
 
 gem 'turbolinks'
 
