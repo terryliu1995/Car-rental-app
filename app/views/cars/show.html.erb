@@ -64,10 +64,12 @@
 
 <% if [1, 2].include?(session[:user_type]) && params[:task].to_i == 1 %>
     <% if @car.status == 0 %>
-      <%= link_to 'Reserve', "#{new_reservation_path}?car_id=#{@car.id}&customer_id=#{@customer.id}" %> |
-      <%= link_to 'Check out', "#{checkout_path}?car_id=#{@car.id}&customer_id=#{@customer.id}" %>
+      <%= link_to 'Reserve', "#{new_reservation_path}?task=1&car_id=#{@car.id}&customer_id=#{@customer.id}" %> |
+      <%= link_to 'Check out', "#{checkout_path}?task=1&car_id=#{@car.id}&customer_id=#{@customer.id}" %>
+    <% elsif @car.status == 2 %>
+      <%= link_to 'Check out', "#{checkout_path}?task=1&car_id=#{@car.id}&customer_id=#{@customer.id}" %>
     <% else %>
-      <%= link_to 'Check in', "#{checkin_path}?car_id=#{@car.id}&customer_id=#{@customer.id}" %>
+      <%= link_to 'Check in', "#{checkin_path}?task=1&car_id=#{@car.id}&customer_id=#{@customer.id}" %>
     <% end %>
     <%= link_to 'Car Rental history', "#{reservations_path}?task=2&car_id=#{@car.id}" %> |
 <% end %>

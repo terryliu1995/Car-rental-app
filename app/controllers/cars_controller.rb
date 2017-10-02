@@ -95,9 +95,13 @@ class CarsController < ApplicationController
 
   def checkout
     @car = Car.find(params[:car_id].to_i)
-    user = current_user
+    task = params[:task].to_i
     current_time = Time.zone.now
-
+    if task == 1
+      user = Customer.find(params[:customer_id].to_i)
+    else
+      user = current_user
+    end
     # Change reservation
     unless (@reservation = @car.current_reservation)
       @reservation = Reservation.new
