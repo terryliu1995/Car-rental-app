@@ -24,9 +24,9 @@
         <td><%= car.style %></td>
         <td><%= car.licencePlateNum %></td>
         <td><%= car.location %></td>
-        <td><%=  "Avaliable" if car.status == 0 %>
+        <td><%=  "Available" if car.status == 0 %>
         <%= "Checked out" if car.status == 1 %>
-        <%= "Rserved" if car.status == 2 %></td>
+        <%= "Reserved" if car.status == 2 %></td>
         <td><%= car.hourlyRentalRate %></td>
 	<% if [1, 2].include?(session[:user_type]) %>
         <td><%= link_to 'Details', "#{car_path(car)}?car_id=#{car.id}#{@parameters}"%></td>
@@ -59,6 +59,6 @@
     <%= label_tag(:slocation, "Location") %>
     <%= select_tag :slocation, options_for_select(Car.all.map {|a| a.location}.uniq.push("---"), "---") %>
     <%= label_tag(:sstatus, "Status") %>
-    <%= select_tag :sstatus, options_for_select(["Avaliable", "Chected out", "Reserved", "---"], "---") %>
+    <%= select_tag :sstatus, options_for_select(["Available", "Checked out", "Reserved", "---"], "---") %>
     <%= submit_tag "search" %>
 <% end %>
