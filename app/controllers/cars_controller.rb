@@ -6,39 +6,43 @@ class CarsController < ApplicationController
   def index
     task = params[:task].to_i
     @parameters = ""
-    if task == 1  # on behalf of customer to reserve cars
+    if task == 1  # on behalf of customer to rent car task = 1
       @customer = Customer.find(params[:customer_id].to_i)
       @parameters += "&task=#{task}&customer_id=#{@customer.id}"
-    else
+    else          # customer reserve car  task = 0
       @customer = current_user
+      @parameters += "&task=0&customer_id=#{@customer.id}"
     end
       if params[:sstatus].present?
-        if params[:sstatus] == 'avaliable'
+        if params[:sstatus] == 'Avaliable'
           flag = 0
-        elsif params[:sstatus] == 'checked out'
+        elsif params[:sstatus] == 'Checked out'
           flag = 1
-        elsif params[:sstatus] == 'reserved'
+        elsif params[:sstatus] == 'Reserved'
           flag = 2
+        elsif params[:sstatus] == '---'
+          flag = 3
         end
       end
-      if params[:sstyle].present? || params[:slocation].present? || params[:smodel].present? || params[:smanufacturer].present? || params[:sstatus].present?
+      if params[:sstyle].present? || params[:slocation].present? ||
+          params[:smodel].present? || params[:smanufacturer].present? || params[:sstatus].present?
         condtion = ''
-        if params[:sstyle].present?
+        if params[:sstyle] != "---"
           condtion  += ".where(:style => params[:sstyle])"
         end
-        if params[:slocation].present?
+        if params[:slocation] != "---"
           condtion += ".where(:location => params[:slocation])"
         end
-        if params[:smodel].present?
+        if params[:smodel] != "---"
           condtion += ".where(:model => params[:smodel])"
         end
-        if params[:smanufacturer].present?
+        if params[:smanufacturer] != "---"
           condtion += ".where(:manufacturer => params[:smanufacturer])"
         end
-        if params[:sstatus].present?
+        if params[:sstatus] != "---"
           condtion += ".where(:status => flag)"
         end
-        @cars = eval("Car#{condtion}")
+        @cars = eval("Car.all#{condtion}")
       else
         @cars = Car.all
       end
@@ -46,11 +50,12 @@ class CarsController < ApplicationController
 
   # GET /cars/1
   def show
+    task = params[:task].to_i
     @reservation = @car.reservations.find_by(status: 0)
-    if [1, 2].include?(session[:user_type])
-      @customer = Customer.find(params[:customer_id].to_i)
+    if [1, 2].include?(session[:user_type]) && task == 1 # on behalf of user to rent car
+        @customer = Customer.find(params[:customer_id].to_i)
     else
-    @customer = current_user
+      @customer = current_user
     end
   end
 

@@ -50,15 +50,15 @@
 <%= "Search Engine:"%>
 <br>
 <%= form_tag cars_path, method: :get do %>
-    <%= label_tag(:sstyle, "Input the style") %>
-    <%= select_tag :sstyle, options_for_select(Car.all.map {|a| a.style})%>  <br>
-    <%= label_tag(:slocation, "Input the location") %>
-    <%= select_tag :slocation, options_for_select(Car.all.map {|a| a.location})%>
-    <%= label_tag(:smodel, "Input the model") %>
-    <%= select_tag :smodel, options_for_select(Car.all.map {|a| a.model})%>
-    <%= label_tag(:smanufacturer, "Input the manufacture") %>
-    <%= select_tag :smanufacturer, options_for_select(Car.all.map {|a| a.manufacturer})%>
-    <%= label_tag(:sstatus, "Input the status") %>
-    <%= select_tag :slocation, options_for_select(Car.all.map {|a| a.status})%>
+    <%= label_tag(:smanufacturer, "Manufacturer") %>
+    <%= select_tag :smanufacturer, options_for_select(Car.all.map {|a| a.manufacturer}.uniq.push("---"), "---") %>
+    <%= label_tag(:smodel, "Model") %>
+    <%= select_tag :smodel, options_for_select(Car.all.map{|a| a.model}.uniq.push("---"), "---") %>
+    <%= label_tag(:sstyle, "Style") %>
+    <%= select_tag :sstyle, options_for_select(Car.all.map {|a| a.style}.uniq.push("---"), "---") %>
+    <%= label_tag(:slocation, "Location") %>
+    <%= select_tag :slocation, options_for_select(Car.all.map {|a| a.location}.uniq.push("---"), "---") %>
+    <%= label_tag(:sstatus, "Status") %>
+    <%= select_tag :sstatus, options_for_select(["Avaliable", "Chected out", "Reserved", "---"], "---") %>
     <%= submit_tag "search" %>
 <% end %>

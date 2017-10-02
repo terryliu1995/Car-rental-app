@@ -53,16 +53,16 @@
           <%= link_to 'Reserve', "#{new_reservation_path}?car_id=#{@car.id}&customer_id=#{@customer.id}" %> |
           <%= link_to 'Check out', "#{checkout_path}?car_id=#{@car.id}&customer_id=#{@customer.id}" %> |
       <% end %>
-      <% if @car.status == 2 %>
+      <% if @car.status == 2 && @car.current_reservation.customer_id == @customer.id %>
           <%= link_to 'Check out', "#{checkout_path}?car_id=#{@car.id}&customer_id=#{@customer.id}" %> |
       <% end %>
-      <% if @car.status == 1 %>
+      <% if @car.status == 1 && @car.current_reservation.customer_id == @customer.id %>
           <%= link_to 'Check in', "#{checkin_path}?car_id=#{@car.id}&customer_id=#{@customer.id}" %> |
       <% end %>
   <% end %>
 <% end %>
 
-<% if [1, 2].include?(session[:user_type]) %>
+<% if [1, 2].include?(session[:user_type]) && params[:task].to_i == 1 %>
     <% if @car.status == 0 %>
       <%= link_to 'Reserve', "#{new_reservation_path}?car_id=#{@car.id}&customer_id=#{@customer.id}" %> |
       <%= link_to 'Check out', "#{checkout_path}?car_id=#{@car.id}&customer_id=#{@customer.id}" %>
