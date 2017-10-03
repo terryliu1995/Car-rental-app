@@ -5,45 +5,23 @@ class CarsController < ApplicationController
   # GET /cars
   def index
     task = params[:task].to_i
-    @parameters = ''
-    if task == 1  # on behalf of customer to rent car task = 1
+    @parameters = "&task=#{task}"
+    @cars = Car.all
+    @car_status_default = 0
+    if task == 1 # on behalf of customer to rent car task = 1
       @customer = Customer.find(params[:customer_id].to_i)
-      @parameters += "&task=#{task}&customer_id=#{@customer.id}"
-    else          # customer reserve car  task = 0
+    elsif task == 0 # customer reserve car  task = 2
       @customer = current_user
-      @parameters += "&task=0&customer_id=#{@customer.id}"
+    elsif 2 == task
+      @car_status_default = -1
     end
-    if params[:sstatus].present?
-      if params[:sstatus] == 'Avaliable'
-        flag = 0
-      elsif params[:sstatus] == 'Checked out'
-        flag = 1
-      elsif params[:sstatus] == 'Reserved'
-        flag = 2
-      elsif params[:sstatus] == '---'
-        flag = 3
-      end
-    end
-    if params[:sstyle].present? || params[:slocation].present? ||
-       params[:smodel].present? || params[:smanufacturer].present? || params[:sstatus].present?
-      condtion = ''
-      if params[:sstyle] != '---'
-        condtion += '.where(:style => params[:sstyle])'
-      end
-      if params[:slocation] != '---'
-        condtion += '.where(:location => params[:slocation])'
-      end
-      if params[:smodel] != '---'
-        condtion += '.where(:model => params[:smodel])'
-      end
-      if params[:smanufacturer] != '---'
-        condtion += '.where(:manufacturer => params[:smanufacturer])'
-      end
-      condtion += '.where(:status => flag)' if params[:sstatus] != '---'
-      @cars = eval("Car.all#{condtion}")
-    else
-      @cars = Car.all
-    end
+    @parameters += "&customer_id=#{@customer.id}" if @customer
+
+    @cars = @cars.where(style: params[:sstyle]) if params[:sstyle] && params[:sstyle] != '---'
+    @cars = @cars.where(location: params[:slocation]) if params[:slocation] && params[:slocation] != '---'
+    @cars = @cars.where(model: params[:smodel]) if params[:smodel] && params[:smodel] != '---'
+    @cars = @cars.where(manufacturer: params[:smanufacturer]) if params[:smanufacturer] && params[:smanufacturer] != '---'
+    @cars = @cars.where(status: params[:sstatus].to_i) if params[:sstatus] && params[:sstatus] != '-1'
   end
 
   # GET /cars/1

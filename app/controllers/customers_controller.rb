@@ -10,6 +10,15 @@ class CustomersController < ApplicationController
   # GET /customers/1
   def show
     @reservation = @customer.current_reservation
+    @url = {}
+    user_type = session[:user_type]
+    @url[:history] = "#{reservations_path}?task=1&customer_id=#{@customer.id}"
+    if 0 == user_type
+      @url[:edit] = edit_customer_path(@customer)
+      @url[:rent_car] = "#{cars_path}?task=0"
+    elsif [1, 2].include? user_type
+      @url[:back] = customers_path
+    end
   end
 
   # GET /customers/new

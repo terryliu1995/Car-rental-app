@@ -59,6 +59,6 @@
     <%= label_tag(:slocation, "Location") %>
     <%= select_tag :slocation, options_for_select(Car.all.map {|a| a.location}.uniq.push("---"), "---") %>
     <%= label_tag(:sstatus, "Status") %>
-    <%= select_tag :sstatus, options_for_select(["Available", "Checked out", "Reserved", "---"], "---") %>
+    <%= select_tag :sstatus, options_for_select([["Available", 0], ["Checked out", 1], ["Reserved", 2], ["---", -1]], @car_status_default) %>
     <%= submit_tag "search" %>
 <% end %>

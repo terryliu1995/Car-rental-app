@@ -26,14 +26,16 @@
   <% end %>
 <% end %>
 
-<%= link_to 'Edit Profile', edit_customer_path(@customer) if session[:user_type]==0 %>
+<%= link_to 'Edit Profile', @url[:edit] if @url[:edit] %>
 <br><br>
 <%= "Function: " %>
 
-<%= link_to "Rent Cars", cars_path %>|
+<% if @url[:rent_car] %>
+  <%= link_to "Rent Cars", @url[:rent_car] %>|
+<% end %>
 
-<%= link_to 'Checkout history', "#{reservations_path}?task=1&customer_id=#{session[:user_id]}" %>
+<%= link_to 'Checkout history', @url[:history] %>
 
-<% if [1,2].include?(session[:user_type]) %>
-|<%= link_to "Back", customers_path %>
+<% if @url[:back] %>
+    |<%= link_to "Back", @url[:back] %>
 <% end %>
