@@ -27,11 +27,15 @@ class Reservation < ActiveRecord::Base
   private
 
   def update_rental_charge(current_time)
+    if checkout_time
     begin
       duration = [1, (current_time - checkout_time) / 3600].max
       self.rental_charge = car.hourlyRentalRate * duration
     rescue Exception => e
       puts e.to_s
+    end
+    else
+      self.rental_charge = 0
     end
   end
 end

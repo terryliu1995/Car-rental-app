@@ -19,9 +19,15 @@
       <tr>
         <td><%= @status[reservation.status] %></td>
         <td><%= reservation.reserved_time %></td>
-        <td><%= reservation.checkout_time %></td>
+        <td><% if reservation.checkout_time %>
+              <%= reservation.checkout_time %>
+          <% else %>
+              No check out
+          <% end %>
+        </td>
         <td><%= sprintf("$ %0.02f", reservation.rental_charge) %></td>
         <td><%= reservation.created_at %></td>
+        <td><%= link_to 'Details', reservation %></td>
 
       </tr>
     <% end %>

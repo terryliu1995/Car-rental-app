@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get '/checkin' => 'cars#checkin'
 
   resources :reservations
+  get '/close' => 'reservations#close'
 
   get 'signup' => 'customers#new'
   resources :customers

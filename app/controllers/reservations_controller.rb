@@ -5,6 +5,7 @@ class ReservationsController < ApplicationController
   # GET /reservations
   def index
     task = params[:task].to_i
+    @user_type = session[:user_type]
     if task == 0
       @reservations = Reservation.all
     elsif task == 1
@@ -69,6 +70,14 @@ class ReservationsController < ApplicationController
   def destroy
     @reservation.destroy
     redirect_to reservations_url, notice: 'Reservation was successfully destroyed.'
+  end
+
+  # CLOSE
+  def close
+    reservation = Reservation.find(params[:reservation_id].to_i)
+    reservation.car.status = 0
+    reservation.close_reservation
+    redirect_to reservation, notice: 'Reservation was successfully closed.'
   end
 
   private

@@ -46,6 +46,9 @@
           <%= link_to 'Check in', "#{checkin_path}?car_id=#{@reservation.car.id}" %>
         </p>
     <% end %>
+    <p>
+      <%= link_to 'Close', "#{close_path}?reservation_id=#{@reservation.id}" %>
+    </p>
 <% end %>
 
 <p>
