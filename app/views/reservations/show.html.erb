@@ -48,11 +48,11 @@
         </p>
     <% elsif @reservation.car.status==1 %>
         <p>
-          <%= link_to 'Check in', "#{checkin_path}?car_id=#{@reservation.car.id}" %>
+          <%= link_to 'Return', "#{checkin_path}?car_id=#{@reservation.car.id}" %>
         </p>
     <% end %>
     <p>
-      <%= link_to 'Close', "#{close_path}?reservation_id=#{@reservation.id}" %>
+      <%= link_to 'Cancel reservation', "#{close_path}?reservation_id=#{@reservation.id}" %>
     </p>
 <% end %>
 

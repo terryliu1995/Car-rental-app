@@ -39,7 +39,10 @@ class ReservationsController < ApplicationController
   end
 
   # GET /reservations/1/edit
-  def edit; end
+  def edit
+    @customer = @reservation.customer
+    @car = @reservation.car
+  end
 
   # POST /reservations
   def create
@@ -79,8 +82,9 @@ class ReservationsController < ApplicationController
   def close
     reservation = Reservation.find(params[:reservation_id].to_i)
     reservation.car.status = 0
+    reservation.car.save
     reservation.close_reservation
-    redirect_to reservation, notice: 'Reservation was successfully closed.'
+    redirect_to reservation, notice: 'Reservation was successfully canceled.'
   end
 
   private
