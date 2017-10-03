@@ -37,18 +37,18 @@
   <%= @car.hourlyRentalRate %>
 </p>
 
-<% if @url[:reserve] %>
-    <%= link_to 'Reserve', @url[:reserve] %> |
+<% if @url_params[:reserve] %>
+    <%= link_to 'Reserve', "#{new_reservation_path}#{@url_params[:reserve]}" %> |
 <% end %>
-<% if @url[:checkout] %>
-    <%= link_to 'Check out', @url[:checkout] %> |
+<% if @url_params[:checkout] %>
+    <%= link_to 'Check out', "#{checkout_path}#{@url_params[:checkout]}" %> |
 <% end %>
-<% if @url[:checkin] %>
-    <%= link_to 'Return', @url[:checkin] %> |
+<% if @url_params[:checkin] %>
+    <%= link_to 'Return', "#{checkin_path}#{@url_params[:checkin]}" %> |
 <% end %>
-<% if @url[:history] %>
-    <%= link_to 'Car Rental history', @url[:history] %> |
+<% if @url_params[:history] %>
+    <%= link_to 'Car Rental history', "#{reservations_path}#{@url_params[:history]}" %> |
 <% end %>
 
-<%= link_to 'Back', @url[:back] %>
+<%= link_to 'Back', "#{cars_path}#{@url_params[:back]}" %>
 
