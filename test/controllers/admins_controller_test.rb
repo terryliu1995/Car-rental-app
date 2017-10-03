@@ -1,49 +1,17 @@
 require 'test_helper'
 
 class AdminsControllerTest < ActionController::TestCase
-  setup do
-    @admin = admins(:one)
-  end
 
-  test "should get index" do
+  test "should redirect to login if we wang to get index without login" do
     get :index
-    assert_response :success
-    assert_not_nil assigns(:admins)
+    assert_redirected_to login_url
   end
 
-  test "should get new" do
-    get :new
-    assert_response :success
+  test "should show the admin information" do
+    get :show
+    assert_redirected_to  action:"set_admin"
   end
 
-  test "should create admin" do
-    assert_difference('Admin.count') do
-      post :create, admin: { email: @admin.email, issuper: @admin.issuper, name: @admin.name, password: @admin.password }
-    end
 
-    assert_redirected_to admin_path(assigns(:admin))
-  end
-
-  test "should show admin" do
-    get :show, id: @admin
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get :edit, id: @admin
-    assert_response :success
-  end
-
-  test "should update admin" do
-    patch :update, id: @admin, admin: { email: @admin.email, issuper: @admin.issuper, name: @admin.name, password: @admin.password }
-    assert_redirected_to admin_path(assigns(:admin))
-  end
-
-  test "should destroy admin" do
-    assert_difference('Admin.count', -1) do
-      delete :destroy, id: @admin
-    end
-
-    assert_redirected_to admins_path
-  end
 end
+

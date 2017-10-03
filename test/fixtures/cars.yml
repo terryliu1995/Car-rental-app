@@ -3,15 +3,17 @@
 one:
   model: MyString
   style: MyString
-  licencePlateNumber: 1
+  licencePlateNum: MyString
   location: MyString
   status: 1
   hourlyRentalRate: 1.5
+  manufacturer: MyString
 
 two:
   model: MyString
   style: MyString
-  licencePlateNumber: 1
+  licencePlateNum: MyString
   location: MyString
   status: 1
   hourlyRentalRate: 1.5
+  manufacturer: MyString
