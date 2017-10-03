@@ -56,6 +56,12 @@ class CustomersController < ApplicationController
 
   # DELETE /customers/1
   def destroy
+    reservation = @customer.current_reservation
+    if reservation
+      reservation.close_reservation
+      reservation.car.status = 0
+      reservation.car.save
+    end
     @customer.destroy
     redirect_to customers_url, notice: 'Customer was successfully destroyed.'
   end
