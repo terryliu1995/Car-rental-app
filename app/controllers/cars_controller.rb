@@ -5,7 +5,7 @@ class CarsController < ApplicationController
   # GET /cars
   def index
     task = params[:task].to_i
-    @parameters = ""
+    @parameters = ''
     if task == 1  # on behalf of customer to rent car task = 1
       @customer = Customer.find(params[:customer_id].to_i)
       @parameters += "&task=#{task}&customer_id=#{@customer.id}"
@@ -13,49 +13,78 @@ class CarsController < ApplicationController
       @customer = current_user
       @parameters += "&task=0&customer_id=#{@customer.id}"
     end
-      if params[:sstatus].present?
-        if params[:sstatus] == 'Avaliable'
-          flag = 0
-        elsif params[:sstatus] == 'Checked out'
-          flag = 1
-        elsif params[:sstatus] == 'Reserved'
-          flag = 2
-        elsif params[:sstatus] == '---'
-          flag = 3
-        end
+    if params[:sstatus].present?
+      if params[:sstatus] == 'Avaliable'
+        flag = 0
+      elsif params[:sstatus] == 'Checked out'
+        flag = 1
+      elsif params[:sstatus] == 'Reserved'
+        flag = 2
+      elsif params[:sstatus] == '---'
+        flag = 3
       end
-      if params[:sstyle].present? || params[:slocation].present? ||
-          params[:smodel].present? || params[:smanufacturer].present? || params[:sstatus].present?
-        condtion = ''
-        if params[:sstyle] != "---"
-          condtion  += ".where(:style => params[:sstyle])"
-        end
-        if params[:slocation] != "---"
-          condtion += ".where(:location => params[:slocation])"
-        end
-        if params[:smodel] != "---"
-          condtion += ".where(:model => params[:smodel])"
-        end
-        if params[:smanufacturer] != "---"
-          condtion += ".where(:manufacturer => params[:smanufacturer])"
-        end
-        if params[:sstatus] != "---"
-          condtion += ".where(:status => flag)"
-        end
-        @cars = eval("Car.all#{condtion}")
-      else
-        @cars = Car.all
+    end
+    if params[:sstyle].present? || params[:slocation].present? ||
+       params[:smodel].present? || params[:smanufacturer].present? || params[:sstatus].present?
+      condtion = ''
+      if params[:sstyle] != '---'
+        condtion += '.where(:style => params[:sstyle])'
       end
+      if params[:slocation] != '---'
+        condtion += '.where(:location => params[:slocation])'
+      end
+      if params[:smodel] != '---'
+        condtion += '.where(:model => params[:smodel])'
+      end
+      if params[:smanufacturer] != '---'
+        condtion += '.where(:manufacturer => params[:smanufacturer])'
+      end
+      condtion += '.where(:status => flag)' if params[:sstatus] != '---'
+      @cars = eval("Car.all#{condtion}")
+    else
+      @cars = Car.all
+    end
   end
 
   # GET /cars/1
   def show
-    task = params[:task].to_i
-    @reservation = @car.reservations.find_by(status: 0)
-    if [1, 2].include?(session[:user_type]) && task == 1 # on behalf of user to rent car
-        @customer = Customer.find(params[:customer_id].to_i)
-    else
+    @url = {}
+    task = params[:task] ? params[:task].to_i : 0
+    user_type = session[:user_type]
+    car_id = @car.id
+
+    if user_type == 0
       @customer = current_user
+      customer_reservation = @customer.current_reservation
+      if customer_reservation
+        if @car.id == customer_reservation.car.id
+          if @car.status == 2
+            @url[:checkout] = "#{checkout_path}?car_id=#{car_id}"
+          elsif @car.status == 1
+            @url[:checkin] = "#{checkin_path}?task=#{task}&car_id=#{car_id}"
+          end
+        end
+      elsif @car.status == 0
+        @url[:reserve] = "#{new_reservation_path}?task=#{task}&car_id=#{car_id}"
+      end
+    elsif [1, 2].include?(user_type)
+      if task == 1 # on behalf of user to rent car
+        @customer = Customer.find(params[:customer_id].to_i)
+        @url[:reserve] = "#{new_reservation_path}?task=#{task}&car_id=#{car_id}"
+      else
+        @url[:history] = "#{reservations_path}?task=2&car_id=#{car_id}"
+      end
+      if @car.status == 2
+        @url[:checkout] = "#{checkout_path}?car_id=#{car_id}"
+      elsif @car.status == 1
+        @url[:checkin] = "#{checkin_path}?task=#{task}&car_id=#{car_id}"
+      end
+    end
+
+    if @customer
+      customer_id = @customer.id
+      @url[:reserve] += "&customer_id=#{customer_id}" if @url[:reserve]
+      @url[:checkout] += "&customer_id=#{customer_id}" if @url[:checkout]
     end
   end
 
@@ -97,18 +126,18 @@ class CarsController < ApplicationController
     @car = Car.find(params[:car_id].to_i)
     task = params[:task].to_i
     current_time = Time.zone.now
-    if task == 1
-      user = Customer.find(params[:customer_id].to_i)
-    else
-      user = current_user
-    end
+    user = if task == 1
+             Customer.find(params[:customer_id].to_i)
+           else
+             current_user
+           end
     # Change reservation
     unless (@reservation = @car.current_reservation)
       @reservation = Reservation.new
       @reservation.status = 0
       @reservation.reserved_time = current_time
       @reservation.car_id = @car.id
-      @reservation.customer_id =  user.id
+      @reservation.customer_id = user.id
     end
     @reservation.checkout_time = current_time
     @reservation.save
