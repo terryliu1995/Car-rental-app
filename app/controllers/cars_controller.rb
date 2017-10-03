@@ -107,6 +107,8 @@ class CarsController < ApplicationController
 
   # DELETE /cars/1
   def destroy
+    reservation = @car.current_reservation
+    reservation.close_reservation if reservation
     @car.destroy
     redirect_to cars_url, notice: 'Car was successfully destroyed.'
   end
