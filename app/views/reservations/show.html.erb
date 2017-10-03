@@ -56,10 +56,7 @@
     </p>
 <% end %>
 
-<p>
-  <%= link_to 'Back to Main Menu', current_user %>
-</p>
   <% if [1,2].include?(session[:user_type]) %>
   <%= link_to 'Edit', edit_reservation_path(@reservation) %> |
-  <%= link_to 'Back', reservations_path %>
+  <%= link_to 'Back to Main Menu', current_user %>
   <% end %>

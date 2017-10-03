@@ -4,15 +4,17 @@ class Reservation < ActiveRecord::Base
   belongs_to :car
 
   def update_status
-    current_time = Time.zone.now
-    if car.status == 2 && current_time - reserved_time > 1800
-      car.status = 0
-      self.status = 1
-    elsif status == 0 && car.status == 1
-      update_rental_charge(current_time)
+    if status == 0
+      current_time = Time.zone.now
+      if car.status == 2 && current_time - reserved_time > 1800
+        car.status = 0
+        self.status = 1
+      elsif car.status == 1
+        update_rental_charge(current_time)
+      end
+      car.save
+      save
     end
-    car.save
-    save
     self
   end
 

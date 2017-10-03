@@ -29,7 +29,7 @@
   <strong>Status:</strong>
   <%=  'Available' if @car.status == 0 %>
   <%=  'Checked out' if @car.status == 1 %>
-  <%=  'Reserve' if @car.status == 2 %>
+  <%=  'Reserved' if @car.status == 2 %>
 </p>
 
 <p>
@@ -50,5 +50,5 @@
     <%= link_to 'Car Rental history', @url[:history] %> |
 <% end %>
 
-<%= link_to 'Back', cars_path %>
+<%= link_to 'Back', @url[:back] %>
 
