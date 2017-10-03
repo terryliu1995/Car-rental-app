@@ -57,7 +57,7 @@
           <%= link_to 'Check out', "#{checkout_path}?car_id=#{@car.id}&customer_id=#{@customer.id}" %> |
       <% end %>
       <% if @car.status == 1 && @car.current_reservation.customer_id == @customer.id %>
-          <%= link_to 'Check in', "#{checkin_path}?car_id=#{@car.id}&customer_id=#{@customer.id}" %> |
+          <%= link_to 'Return', "#{checkin_path}?car_id=#{@car.id}&customer_id=#{@customer.id}" %> |
       <% end %>
   <% end %>
 <% end %>
