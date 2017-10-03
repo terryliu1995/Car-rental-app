@@ -29,8 +29,10 @@ class CarsController < ApplicationController
 
   # GET /cars/1
   def show
+    customer_id = params[:customer_id]
+    customer_id = session[:user_id] unless customer_id
     @url_params = @car.availalbe_params(session[:user_type],
-                                        params[:task], params[:customer_id])
+                                        params[:task], customer_id)
   end
 
   # GET /cars/new

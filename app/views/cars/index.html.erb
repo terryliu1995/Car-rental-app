@@ -18,6 +18,7 @@
 
   <tbody>
     <% @cars.each do |car| %>
+      <% url_params = car.availalbe_params(session[:user_type], @task, @customer ? @customer.id: nil) %>
       <tr>
         <td><%= car.manufacturer %></td>
         <td><%= car.model %></td>
@@ -28,13 +29,14 @@
         <%= "Checked out" if car.status == 1 %>
         <%= "Reserved" if car.status == 2 %></td>
         <td><%= car.hourlyRentalRate %></td>
-	<% if [1, 2].include?(session[:user_type]) %>
-        <td><%= link_to 'Details', "#{car_path(car)}?car_id=#{car.id}#{@parameters}"%></td>
-        <td><%= link_to 'Edit', edit_car_path(car) %></td>
-        <td><%= link_to 'Destroy', car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-	<% else %>
-        <td><%= link_to 'Details', car %></td>
-  <% end %>
+        <% if [1, 2].include?(session[:user_type]) %>
+            <td><%= link_to 'Details', "#{car_path(car)}?car_id=#{car.id}#{@parameters}"%></td>
+            <td><%= link_to 'Edit', edit_car_path(car) %></td>
+            <td><%= link_to 'Destroy', car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% else %>
+            <td><%= link_to 'Details', car %></td>
+        <% end %>
+        <td><%= link_to 'Reserve', "#{new_reservation_path}#{url_params[:reserve]}" if url_params[:reserve] %></td>
       </tr>
     <% end %>
   </tbody>

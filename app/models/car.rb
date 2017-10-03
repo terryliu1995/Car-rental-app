@@ -28,7 +28,7 @@ class Car < ActiveRecord::Base
 
     url_params[:back] = "?task=#{task}"
     if user_type == 0
-      @customer = current_user
+      @customer = Customer.find(customer_id)
       customer_reservation = @customer.current_reservation
       if customer_reservation
         if id == customer_reservation.car.id
