@@ -22,26 +22,24 @@ class ReservationsController < ApplicationController
   def show
     @reservation.update_status
     car = @reservation.car
-    @car_info = "#{car.manufacturer}|#{car.model}|#{car.style}"
-    +"|#{car.licencePlateNum}"
+    if car
+      @car_info = "#{car.manufacturer}|#{car.model}|#{car.style}"
+      +"|#{car.licencePlateNum}"
+    end
   end
 
   # GET /reservations/new
   def new
     @reservation = Reservation.new
-    @car = Car.find(params[:car_id])
-    customer_id = params[:customer_id].to_i
-    @customer = if customer_id && customer_id > 0
-                  Customer.find(params[:customer_id])
-                else
-                  Customer.find(session[:user_id])
-                end
+    @car_id = params[:car_id]
+    @customer_id = params[:customer_id].to_i
+    @customer_id = session[:user_id] unless @customer_id > 0
   end
 
   # GET /reservations/1/edit
   def edit
-    @customer = @reservation.customer
-    @car = @reservation.car
+    @customer_id = @reservation.customer_id
+    @car_id = @reservation.car_id
   end
 
   # POST /reservations

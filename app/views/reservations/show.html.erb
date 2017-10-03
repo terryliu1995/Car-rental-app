@@ -9,12 +9,22 @@
 
 <p>
   <strong>Car:</strong>
-  <%= link_to @car_info, @reservation.car %>
+  <% if @reservation.car %>
+    <%= link_to @car_info, @reservation.car %>
+  <% else %>
+      This car has already been deleted
+  <% end %>
+
 </p>
 
 <p>
   <strong>Customer:</strong>
-  <%= link_to @reservation.customer.name, @reservation.customer %>
+  <% if @reservation.customer %>
+    <%= link_to @reservation.customer.name, @reservation.customer %>
+  <% else %>
+      This customer has already been deleted
+  <% end %>
+
 </p>
 
 <p>
