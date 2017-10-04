@@ -37,6 +37,7 @@
             <td><%= link_to 'Details', car %></td>
         <% end %>
         <td><%= link_to 'Reserve', "#{new_reservation_path}#{url_params[:reserve]}" if url_params[:reserve] %></td>
+        <td><%= link_to 'Check out', "#{checkout_path}#{url_params[:checkout]}" if url_params[:checkout] %></td>
       </tr>
     <% end %>
   </tbody>
