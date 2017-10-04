@@ -1,5 +1,5 @@
 class ReservationsController < ApplicationController
-  before_action :set_reservation, only: %i[show edit update destroy]
+  before_action :set_reservation, only: %i[show edit update destroy dismiss_message]
   before_action :set_status, only: %i[show index]
 
   # GET /reservations
@@ -15,7 +15,7 @@ class ReservationsController < ApplicationController
     else
       @reservations = []
     end
-    @reservations.each {|r| r.update_status}
+    @reservations.each(&:update_status)
   end
 
   # GET /reservations/1
@@ -44,7 +44,9 @@ class ReservationsController < ApplicationController
 
   # POST /reservations
   def create
-    @reservation = Reservation.new(status: 0)
+    @reservation = Reservation.new(status: 0,
+                                   unread_message: false,
+                                   unread_email: false)
 
     if @reservation.update(reservation_params)
       time_diff = @reservation.reserved_time - Time.zone.now
@@ -83,6 +85,13 @@ class ReservationsController < ApplicationController
     reservation.car.save
     reservation.close_reservation
     redirect_to reservation, notice: 'Reservation was successfully canceled.'
+  end
+
+  # Dismiss message
+  def dismiss_message
+    @reservation.unread_message = false
+    @reservation.save
+    redirect_to current_user
   end
 
   private

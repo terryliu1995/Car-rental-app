@@ -9,6 +9,10 @@ class Car < ActiveRecord::Base
   validates :hourlyRentalRate, presence: true
   validates :status, presence: true, numericality: { only_integer: true }
 
+  def info
+    "#{manufacturer}|#{model}|#{style}|#{licencePlateNum}"
+  end
+
   def current_reservation
     reservation = reservations.find_by(status: 0)
     reservation.update_status if reservation

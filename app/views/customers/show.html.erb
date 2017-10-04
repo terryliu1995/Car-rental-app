@@ -1,5 +1,20 @@
 <p id="notice"><%= notice %></p>
 
+<% if @unread_reservations %>
+  <table>
+    <tbody>
+    <% @unread_reservations.each do |reservation| %>
+        <tr>
+          <td id="notice">
+            Your car <%= link_to reservation.car.info, reservation.car %> has already been returned!
+          </td>
+          <td><%= link_to 'Dismiss', dismiss_message_path(reservation) %></td>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>
+
 <p>
   <strong>Email:</strong>
   <%= @customer.email %>

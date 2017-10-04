@@ -38,6 +38,8 @@ class Reservation < ActiveRecord::Base
         car.save
         self.status = 1
         self.end_time = current_time
+        self.unread_email = true
+        self.unread_message = true
       end
       self.rental_charge = car.hourlyRentalRate * [1, duration].max
     rescue Exception => e
