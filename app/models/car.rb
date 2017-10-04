@@ -44,11 +44,15 @@ class Car < ActiveRecord::Base
         end
       elsif 0 == status
         url_params[:reserve] = "?task=#{task}&car_id=#{id}"
+        url_params[:checkout] = "?car_id=#{id}"
       end
     elsif [1, 2].include?(user_type)
       if 1 == task # on behalf of user to rent car
         @customer = Customer.find(customer_id)
-        url_params[:reserve] = "?task=#{task}&car_id=#{id}" if status == 0
+        if 0 == status
+          url_params[:reserve] = "?task=#{task}&car_id=#{id}"
+          url_params[:checkout] = "?task=#{task}&car_id=#{id}"
+        end
       else
         url_params[:history] = "?task=2&car_id=#{id}"
         if 2 == status

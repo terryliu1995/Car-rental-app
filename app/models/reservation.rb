@@ -34,6 +34,7 @@ class Reservation < ActiveRecord::Base
       car = self.car
       duration = (current_time - checkout_time) / 3600
       if duration >= reserved_hours
+        duration = reserved_hours
         car.status = 0
         car.save
         self.status = 1

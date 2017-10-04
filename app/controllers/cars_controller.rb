@@ -85,6 +85,7 @@ class CarsController < ApplicationController
       @reservation = Reservation.new
       @reservation.status = 0
       @reservation.reserved_time = current_time
+      @reservation.reserved_hours = 10
       @reservation.car_id = @car.id
       @reservation.customer_id = user.id
     end
