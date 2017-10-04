@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   get '/checkin' => 'cars#checkin'
 
   resources :reservations
+  get '/close' => 'reservations#close'
+  get '/dismiss_message/:id' => 'reservations#dismiss_message', as: 'dismiss_message'
 
   get 'signup' => 'customers#new'
   resources :customers

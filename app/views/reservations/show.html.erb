@@ -8,8 +8,23 @@
 </p>
 
 <p>
+  <strong>Car:</strong>
+  <% if @reservation.car %>
+    <%= link_to @reservation.car.info, @reservation.car %>
+  <% else %>
+      This car has already been deleted
+  <% end %>
+
+</p>
+
+<p>
   <strong>Customer:</strong>
-  <%= link_to @reservation.customer.name, @reservation.customer %>
+  <% if @reservation.customer %>
+    <%= link_to @reservation.customer.name, @reservation.customer %>
+  <% else %>
+      This customer has already been deleted
+  <% end %>
+
 </p>
 
 <p>
@@ -43,15 +58,15 @@
         </p>
     <% elsif @reservation.car.status==1 %>
         <p>
-          <%= link_to 'Check in', "#{checkin_path}?car_id=#{@reservation.car.id}" %>
+          <%= link_to 'Return', "#{checkin_path}?car_id=#{@reservation.car.id}" %>
         </p>
     <% end %>
+    <p>
+      <%= link_to 'Cancel reservation', "#{close_path}?reservation_id=#{@reservation.id}" %>
+    </p>
 <% end %>
 
-<p>
-  <%= link_to 'Back to Main Menu', current_user %>
-</p>
   <% if [1,2].include?(session[:user_type]) %>
   <%= link_to 'Edit', edit_reservation_path(@reservation) %> |
-  <%= link_to 'Back', reservations_path %>
   <% end %>
+<%= link_to 'Back to Main Menu', current_user %>

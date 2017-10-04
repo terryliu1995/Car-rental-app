@@ -29,50 +29,26 @@
   <strong>Status:</strong>
   <%=  'Available' if @car.status == 0 %>
   <%=  'Checked out' if @car.status == 1 %>
-  <%=  'Reserve' if @car.status == 2 %>
+  <%=  'Reserved' if @car.status == 2 %>
 </p>
 
 <p>
   <strong>Hourlyrentalrate:</strong>
   <%= @car.hourlyRentalRate %>
 </p>
-<% unless [1, 2].include?(session[:user_type]) %>
-  <% if @customer.current_reservation %>
-      <% if @customer.current_reservation.car_id == @car.id %>
-          <% if @car.status == 2 %>
-              <%= link_to 'Check out', "#{checkout_path}?car_id=#{@car.id}&customer_id=#{@customer.id}" %> |
-          <% end %>
-          <% if @car.status == 1 %>
-              <%= link_to 'Check in', "#{checkin_path}?car_id=#{@car.id}&customer_id=#{@customer.id}" %> |
-          <% end %>
-      <% else %>
-          <%= "You aren't allow to reserve or rent two cars in the meantime! Pleace click back!" %>
-      <% end %>
-  <% else %>
-      <% if @car.status == 0 %>
-          <%= link_to 'Reserve', "#{new_reservation_path}?car_id=#{@car.id}&customer_id=#{@customer.id}" %> |
-          <%= link_to 'Check out', "#{checkout_path}?car_id=#{@car.id}&customer_id=#{@customer.id}" %> |
-      <% end %>
-      <% if @car.status == 2 && @car.current_reservation.customer_id == @customer.id %>
-          <%= link_to 'Check out', "#{checkout_path}?car_id=#{@car.id}&customer_id=#{@customer.id}" %> |
-      <% end %>
-      <% if @car.status == 1 && @car.current_reservation.customer_id == @customer.id %>
-          <%= link_to 'Check in', "#{checkin_path}?car_id=#{@car.id}&customer_id=#{@customer.id}" %> |
-      <% end %>
-  <% end %>
+
+<% if @url_params[:reserve] %>
+    <%= link_to 'Reserve', "#{new_reservation_path}#{@url_params[:reserve]}" %> |
+<% end %>
+<% if @url_params[:checkout] %>
+    <%= link_to 'Check out', "#{checkout_path}#{@url_params[:checkout]}" %> |
+<% end %>
+<% if @url_params[:checkin] %>
+    <%= link_to 'Return', "#{checkin_path}#{@url_params[:checkin]}" %> |
+<% end %>
+<% if @url_params[:history] %>
+    <%= link_to 'Car Rental history', "#{reservations_path}#{@url_params[:history]}" %> |
 <% end %>
 
-<% if [1, 2].include?(session[:user_type]) && params[:task].to_i == 1 %>
-    <% if @car.status == 0 %>
-      <%= link_to 'Reserve', "#{new_reservation_path}?task=1&car_id=#{@car.id}&customer_id=#{@customer.id}" %> |
-      <%= link_to 'Check out', "#{checkout_path}?task=1&car_id=#{@car.id}&customer_id=#{@customer.id}" %>
-    <% elsif @car.status == 2 %>
-      <%= link_to 'Check out', "#{checkout_path}?task=1&car_id=#{@car.id}&customer_id=#{@customer.id}" %>
-    <% else %>
-      <%= link_to 'Check in', "#{checkin_path}?task=1&car_id=#{@car.id}&customer_id=#{@customer.id}" %>
-    <% end %>
-    <%= link_to 'Car Rental history', "#{reservations_path}?task=2&car_id=#{@car.id}" %> |
-<% end %>
-
-<%= link_to 'Back', cars_path %>
+<%= link_to 'Back to car list', "#{cars_path}#{@url_params[:back]}" %>
 

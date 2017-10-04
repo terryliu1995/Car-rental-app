@@ -18,23 +18,26 @@
 
   <tbody>
     <% @cars.each do |car| %>
+      <% url_params = car.availalbe_params(session[:user_type], @task, @customer ? @customer.id: nil) %>
       <tr>
         <td><%= car.manufacturer %></td>
         <td><%= car.model %></td>
         <td><%= car.style %></td>
         <td><%= car.licencePlateNum %></td>
         <td><%= car.location %></td>
-        <td><%=  "Avaliable" if car.status == 0 %>
+        <td><%=  "Available" if car.status == 0 %>
         <%= "Checked out" if car.status == 1 %>
-        <%= "Rserved" if car.status == 2 %></td>
+        <%= "Reserved" if car.status == 2 %></td>
         <td><%= car.hourlyRentalRate %></td>
-	<% if [1, 2].include?(session[:user_type]) %>
-        <td><%= link_to 'Details', "#{car_path(car)}?car_id=#{car.id}#{@parameters}"%></td>
-        <td><%= link_to 'Edit', edit_car_path(car) %></td>
-        <td><%= link_to 'Destroy', car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-	<% else %>
-        <td><%= link_to 'Details', car %></td>
-  <% end %>
+        <% if [1, 2].include?(session[:user_type]) %>
+            <td><%= link_to 'Details', "#{car_path(car)}?car_id=#{car.id}#{@parameters}"%></td>
+            <td><%= link_to 'Edit', edit_car_path(car) %></td>
+            <td><%= link_to 'Destroy', car, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% else %>
+            <td><%= link_to 'Details', car %></td>
+        <% end %>
+        <td><%= link_to 'Reserve', "#{new_reservation_path}#{url_params[:reserve]}" if url_params[:reserve] %></td>
+        <td><%= link_to 'Check out', "#{checkout_path}#{url_params[:checkout]}" if url_params[:checkout] %></td>
       </tr>
     <% end %>
   </tbody>
@@ -50,6 +53,8 @@
 <%= "Search Engine:"%>
 <br>
 <%= form_tag cars_path, method: :get do %>
+    <%= hidden_field_tag(:task, @task) %>
+    <%= hidden_field_tag(:customer_id, @customer.id) if @customer %>
     <%= label_tag(:smanufacturer, "Manufacturer") %>
     <%= select_tag :smanufacturer, options_for_select(Car.all.map {|a| a.manufacturer}.uniq.push("---"), "---") %>
     <%= label_tag(:smodel, "Model") %>
@@ -59,6 +64,6 @@
     <%= label_tag(:slocation, "Location") %>
     <%= select_tag :slocation, options_for_select(Car.all.map {|a| a.location}.uniq.push("---"), "---") %>
     <%= label_tag(:sstatus, "Status") %>
-    <%= select_tag :sstatus, options_for_select(["Avaliable", "Chected out", "Reserved", "---"], "---") %>
+    <%= select_tag :sstatus, options_for_select([["Available", 0], ["Checked out", 1], ["Reserved", 2], ["---", -1]], @car_status_default) %>
     <%= submit_tag "search" %>
 <% end %>

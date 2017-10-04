@@ -1,10 +1,11 @@
 class ReservationsController < ApplicationController
-  before_action :set_reservation, only: %i[show edit update destroy]
+  before_action :set_reservation, only: %i[show edit update destroy dismiss_message]
   before_action :set_status, only: %i[show index]
 
   # GET /reservations
   def index
     task = params[:task].to_i
+    @user_type = session[:user_type]
     if task == 0
       @reservations = Reservation.all
     elsif task == 1
@@ -25,21 +26,22 @@ class ReservationsController < ApplicationController
   # GET /reservations/new
   def new
     @reservation = Reservation.new
-    @car = Car.find(params[:car_id])
-    customer_id = params[:customer_id].to_i
-    @customer = if customer_id && customer_id > 0
-                  Customer.find(params[:customer_id])
-                else
-                  Customer.find(session[:user_id])
-                end
+    @car_id = params[:car_id]
+    @customer_id = params[:customer_id].to_i
+    @customer_id = session[:user_id] unless @customer_id > 0
   end
 
   # GET /reservations/1/edit
-  def edit; end
+  def edit
+    @customer_id = @reservation.customer_id
+    @car_id = @reservation.car_id
+  end
 
   # POST /reservations
   def create
-    @reservation = Reservation.new(status: 0)
+    @reservation = Reservation.new(status: 0,
+                                   unread_message: false,
+                                   unread_email: false)
 
     if @reservation.update(reservation_params)
       time_diff = @reservation.reserved_time - Time.zone.now
@@ -71,6 +73,22 @@ class ReservationsController < ApplicationController
     redirect_to reservations_url, notice: 'Reservation was successfully destroyed.'
   end
 
+  # CLOSE
+  def close
+    reservation = Reservation.find(params[:reservation_id].to_i)
+    reservation.car.status = 0
+    reservation.car.save
+    reservation.close_reservation
+    redirect_to reservation, notice: 'Reservation was successfully canceled.'
+  end
+
+  # Dismiss message
+  def dismiss_message
+    @reservation.unread_message = false
+    @reservation.save
+    redirect_to current_user
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -85,7 +103,7 @@ class ReservationsController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def reservation_params
     params.require(:reservation).permit(:car_id, :customer_id, :reserved_time,
-                                        :rental_charge)
+                                        :reserved_hours, :rental_charge)
   end
 
   def auto_close(reservation)

@@ -10,6 +10,16 @@ class CustomersController < ApplicationController
   # GET /customers/1
   def show
     @reservation = @customer.current_reservation
+    @url = {}
+    user_type = session[:user_type]
+    @url[:history] = "#{reservations_path}?task=1&customer_id=#{@customer.id}"
+    if 0 == user_type
+      @url[:edit] = edit_customer_path(@customer)
+      @url[:rent_car] = "#{cars_path}?task=0"
+      @unread_reservations = @customer.reservations.where(unread_message: true)
+    elsif [1, 2].include? user_type
+      @url[:back] = customers_path
+    end
   end
 
   # GET /customers/new
@@ -47,6 +57,12 @@ class CustomersController < ApplicationController
 
   # DELETE /customers/1
   def destroy
+    reservation = @customer.current_reservation
+    if reservation
+      reservation.close_reservation
+      reservation.car.status = 0
+      reservation.car.save
+    end
     @customer.destroy
     redirect_to customers_url, notice: 'Customer was successfully destroyed.'
   end

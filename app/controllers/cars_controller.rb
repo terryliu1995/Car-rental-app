@@ -4,59 +4,35 @@ class CarsController < ApplicationController
 
   # GET /cars
   def index
-    task = params[:task].to_i
-    @parameters = ""
-    if task == 1  # on behalf of customer to rent car task = 1
+    @task = params[:task].to_i
+    @parameters = "&task=#{@task}"
+    @cars = Car.all
+    @car_status_default = 0
+    if @task == 1 # on behalf of customer to rent car task = 1
+      params[:sstatus] ||= 0
       @customer = Customer.find(params[:customer_id].to_i)
-      @parameters += "&task=#{task}&customer_id=#{@customer.id}"
-    else          # customer reserve car  task = 0
+    elsif @task == 0 # customer reserve car  task = 2
+      params[:sstatus] ||= 0
       @customer = current_user
-      @parameters += "&task=0&customer_id=#{@customer.id}"
+    elsif @task == 2
+      params[:sstatus] ||= '-1'
+      @car_status_default = -1
     end
-      if params[:sstatus].present?
-        if params[:sstatus] == 'Avaliable'
-          flag = 0
-        elsif params[:sstatus] == 'Checked out'
-          flag = 1
-        elsif params[:sstatus] == 'Reserved'
-          flag = 2
-        elsif params[:sstatus] == '---'
-          flag = 3
-        end
-      end
-      if params[:sstyle].present? || params[:slocation].present? ||
-          params[:smodel].present? || params[:smanufacturer].present? || params[:sstatus].present?
-        condtion = ''
-        if params[:sstyle] != "---"
-          condtion  += ".where(:style => params[:sstyle])"
-        end
-        if params[:slocation] != "---"
-          condtion += ".where(:location => params[:slocation])"
-        end
-        if params[:smodel] != "---"
-          condtion += ".where(:model => params[:smodel])"
-        end
-        if params[:smanufacturer] != "---"
-          condtion += ".where(:manufacturer => params[:smanufacturer])"
-        end
-        if params[:sstatus] != "---"
-          condtion += ".where(:status => flag)"
-        end
-        @cars = eval("Car.all#{condtion}")
-      else
-        @cars = Car.all
-      end
+    @parameters += "&customer_id=#{@customer.id}" if @customer
+
+    @cars = @cars.where(style: params[:sstyle]) if params[:sstyle] && params[:sstyle] != '---'
+    @cars = @cars.where(location: params[:slocation]) if params[:slocation] && params[:slocation] != '---'
+    @cars = @cars.where(model: params[:smodel]) if params[:smodel] && params[:smodel] != '---'
+    @cars = @cars.where(manufacturer: params[:smanufacturer]) if params[:smanufacturer] && params[:smanufacturer] != '---'
+    @cars = @cars.where(status: params[:sstatus].to_i) if params[:sstatus] && params[:sstatus] != '-1'
   end
 
   # GET /cars/1
   def show
-    task = params[:task].to_i
-    @reservation = @car.reservations.find_by(status: 0)
-    if [1, 2].include?(session[:user_type]) && task == 1 # on behalf of user to rent car
-        @customer = Customer.find(params[:customer_id].to_i)
-    else
-      @customer = current_user
-    end
+    customer_id = params[:customer_id]
+    customer_id = session[:user_id] unless customer_id
+    @url_params = @car.availalbe_params(session[:user_type],
+                                        params[:task], customer_id)
   end
 
   # GET /cars/new
@@ -89,6 +65,8 @@ class CarsController < ApplicationController
 
   # DELETE /cars/1
   def destroy
+    reservation = @car.current_reservation
+    reservation.close_reservation if reservation
     @car.destroy
     redirect_to cars_url, notice: 'Car was successfully destroyed.'
   end
@@ -97,18 +75,19 @@ class CarsController < ApplicationController
     @car = Car.find(params[:car_id].to_i)
     task = params[:task].to_i
     current_time = Time.zone.now
-    if task == 1
-      user = Customer.find(params[:customer_id].to_i)
-    else
-      user = current_user
-    end
+    user = if task == 1
+             Customer.find(params[:customer_id].to_i)
+           else
+             current_user
+           end
     # Change reservation
     unless (@reservation = @car.current_reservation)
       @reservation = Reservation.new
       @reservation.status = 0
       @reservation.reserved_time = current_time
+      @reservation.reserved_hours = 10
       @reservation.car_id = @car.id
-      @reservation.customer_id =  user.id
+      @reservation.customer_id = user.id
     end
     @reservation.checkout_time = current_time
     @reservation.save
