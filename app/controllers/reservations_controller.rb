@@ -21,11 +21,6 @@ class ReservationsController < ApplicationController
   # GET /reservations/1
   def show
     @reservation.update_status
-    car = @reservation.car
-    if car
-      @car_info = "#{car.manufacturer}|#{car.model}|#{car.style}"
-      +"|#{car.licencePlateNum}"
-    end
   end
 
   # GET /reservations/new

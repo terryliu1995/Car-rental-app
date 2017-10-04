@@ -33,7 +33,7 @@
 
   <% if @reservation.status == 0 %>
     <p>
-      <%= link_to 'Reserved car', @reservation.car %>
+      <%= link_to "Car: #{@reservation.car.info}", @reservation.car %>
     </p>
     <p>
       <%= link_to 'Reservation', @reservation %>
