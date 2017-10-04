@@ -99,7 +99,7 @@ class ReservationsController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def reservation_params
     params.require(:reservation).permit(:car_id, :customer_id, :reserved_time,
-                                        :rental_charge)
+                                        :reserved_hours, :rental_charge)
   end
 
   def auto_close(reservation)
