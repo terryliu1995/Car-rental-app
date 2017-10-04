@@ -16,7 +16,7 @@
   <%= "SuperAdmin" if @admin.issuper==2%>
 </p>
 
-<%= link_to "Edit Profile", edit_admin_path(@admin) %>
+<%= link_to "Edit Profile", edit_admin_path(@admin) if @admin.id == session[:user_id]%>
 <br><br>
 <%= "Function: " %>
 <%= link_to 'Manage Admin', admins_path %>|

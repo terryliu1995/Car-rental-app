@@ -21,7 +21,7 @@
         <td><%="SuperAdmin" if 2==admin.issuper%>
         <%="Admin" if 1==admin.issuper%>
         </td>
-
+        <td><%= link_to 'Details', admin %></td>
         <% if admin.id!=current_user.id %>
             <td><%= link_to 'Destroy', admin, method: :delete,data: { confirm: 'Are you sure?' }unless admin.issuper==2%></td>
         <% else %>
