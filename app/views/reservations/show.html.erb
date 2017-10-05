@@ -10,7 +10,7 @@
 <p>
   <strong>Car:</strong>
   <% if @reservation.car %>
-    <%= link_to @car_info, @reservation.car %>
+    <%= link_to @reservation.car.info, @reservation.car %>
   <% else %>
       This car has already been deleted
   <% end %>

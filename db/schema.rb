@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170925214646) do
+ActiveRecord::Schema.define(version: 20171004052615) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email"
@@ -53,6 +53,8 @@ ActiveRecord::Schema.define(version: 20170925214646) do
     t.datetime "end_time"
     t.integer  "reserved_hours"
     t.float    "rental_charge"
+    t.boolean  "unread_message"
+    t.boolean  "unread_email"
   end
 
 end

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   resources :reservations
   get '/close' => 'reservations#close'
+  get '/dismiss_message/:id' => 'reservations#dismiss_message', as: 'dismiss_message'
 
   get 'signup' => 'customers#new'
   resources :customers

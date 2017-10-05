@@ -1,5 +1,20 @@
 <p id="notice"><%= notice %></p>
 
+<% if @unread_reservations %>
+  <table>
+    <tbody>
+    <% @unread_reservations.each do |reservation| %>
+        <tr>
+          <td id="notice">
+            Your car <%= link_to reservation.car.info, reservation.car %> has already been returned!
+          </td>
+          <td><%= link_to 'Dismiss', dismiss_message_path(reservation) %></td>
+        </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>
+
 <p>
   <strong>Email:</strong>
   <%= @customer.email %>
@@ -18,7 +33,7 @@
 
   <% if @reservation.status == 0 %>
     <p>
-      <%= link_to 'Reserved car', @reservation.car %>
+      <%= link_to "Car: #{@reservation.car.info}", @reservation.car %>
     </p>
     <p>
       <%= link_to 'Reservation', @reservation %>
@@ -31,7 +46,7 @@
 <%= "Function: " %>
 
 <% if @url[:rent_car] %>
-  <%= link_to "Rent Cars", @url[:rent_car] %>|
+  <%= link_to "List Cars", @url[:rent_car] %>|
 <% end %>
 
 <%= link_to 'Checkout history', @url[:history] %>

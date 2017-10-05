@@ -16,6 +16,7 @@ class CustomersController < ApplicationController
     if 0 == user_type
       @url[:edit] = edit_customer_path(@customer)
       @url[:rent_car] = "#{cars_path}?task=0"
+      @unread_reservations = @customer.reservations.where(unread_message: true)
     elsif [1, 2].include? user_type
       @url[:back] = customers_path
     end
