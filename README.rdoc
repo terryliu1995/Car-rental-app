@@ -1,36 +1,37 @@
-== README
+== Car rental app
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Before running our app, please read this document first.
 
-Things you may want to cover:
-* Ruby version
-2.3.0
-* Rails version
-4.2.6
-*gem file
-We use the same gem file of cookbook3
-* Database creation
-sqlite3
+===Environment configuration:
+* Ruby version: 2.3.0
+* Rails version: 4.2.6
+* Database creation: sqlite3
 
+===Super admin initialization
+* email: root@ncsu
+* password: root
+===Customer instruction:
+1. If you are a new customer, you should sign up with your email, name and password before login.
+2. After sign up, you can login in by your email and password. Don't forget select user type.
+3. After login, you will jump to your account page. In this page, you can edit your own profile and go to car list. You also can check all of your history reservations.
+4. In car list, you can click "detail" to check all the detail of the car, reserve it or check out it. 
+5. The search engine is working. You can search cars with any attributes you want.
+6. Note: You are not allow to check out and reserve cars whose status are "Available".
+===Edge-case scenarios:
+*  If admin deletes a car, its reservations are still in the database. So if you want to check the details of this car, the "car name" field of its reservations will display as "This car has already been deleted".
+*  We allow admin to delete a car even if this car is not yet returned. Because if a car is lost when it's under reserve or checkout status, the admin should have a right to delete it. After the admin deletes this car, the current reservation of this car will be closed and this reservation are still stored in our database, which means that this reservation can be saw in checkout history of this customer, even if the car is deleted. Then this customer are able to reserve or check out other cars.
+*  when one of the cars that the user once checked out is deleted, his/her reservations about this car are still avaliable in his/her checkout history, but the 'car name' field of these reservations will display as "This car has already been deleted". 
+*  If a user is deleted, their checkout history and reservation are still stored in database. So we can get details of these reservations from the cars that he/she reserved or checked out. In the details of this existing reservations, the "customer_user" field will display as "This customer has already been deleted".
+*  We allow admin to delete a user who has a current checkout or a pending reservation. Because we think if this user seriously violates the rules in the car rental contract or this user has some credit problems, admin should be able to delete this user. After the user is deleted, the current reservation or checkout of his/her will be closed. And the status of the car checked out becomes "Available".
+===Special test case A: The system should handle the scenario where admins delete a car which has been checked out but not returned yet.
+*  As said in the second point in Edge-cases, we allow this action. For example, if a checked out car is lost, the admin should have a right to delete it even if it's not returned.
+===Special test case B: The system should handle the scenario that admins delete user who has currently pending reservations.
+*  As said in the last point in Edge-cases, we allow this action. For example, if the car rental company finds that this customer has some credit problems or something like that, the admin should be able to delete this user even if he/she has pending reservations.
 
-*super administration initialization
-email: root@ncsu
-password: root
+===Admin instruction:
 
-
-*instruction
-1. If you are a new customer, you should sign up before login. In sign up page, you should input your email, your name and your password. Then you can log in.
-2. After sign up, you have your own account. Then you need to choose user type in login page, and login with your email and password.
-3. After login, you will jump to the main page, we set your account page as main page. In the main page, you can check and edit your own profile by click "Edit profile", and you also can go to car list page by click "rent car". "Checkout history" buttom will show you all of your history reservations.
-4. If you click the "rent car", all the cars appears in the web page. You can click "detail" to check all the detail of the car, reserve it or check out it. 
-5. The search engine is working. You can search cars with any attributes you want, but one thing i need to say is that the search engine is case sensitive, which means you should input things that car list shows.
-6. You can checkout and reserve a avaliable car. If you want to reserve a car, you need select datetime and time period. After you reserve a car, you can find your reserved car in your main page(accout page). You can checkin by click "my reserved car".
-7. Thank you to read this file! Happy coding!
-* our Email
-zliu48@ncsu.edu
+===Contact us
 kyang12@ncsu.edu
 azhou6@ncsu.edu
+zliu48@ncsu.edu
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
