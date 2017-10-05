@@ -3,11 +3,11 @@
 one:
   email: MyString
   name: MyString
-  password: MyString
+  password_digest: MyString
   issuper: 1
 
 two:
   email: MyString
   name: MyString
-  password: MyString
+  password_digest: MyString
   issuper: 1
